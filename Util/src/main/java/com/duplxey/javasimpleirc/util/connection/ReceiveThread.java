@@ -29,6 +29,7 @@ public class ReceiveThread extends Thread {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                connection.destroy();
             }
         }
     }
