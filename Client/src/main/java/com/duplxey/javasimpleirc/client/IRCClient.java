@@ -1,5 +1,6 @@
 package com.duplxey.javasimpleirc.client;
 
+import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.util.connection.Connection;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ public class IRCClient {
     }
 
     private void init() {
+        GUIManager guiManager = new GUIManager();
+
         System.out.println("Please enter your username:");
         username = new Scanner(System.in).nextLine().trim();
         try {
