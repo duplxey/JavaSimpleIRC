@@ -53,16 +53,6 @@
                 <configuration>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>ideauidesigner-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <configuration>
-                    <fork>true</fork>
-                    <debug>true</debug>
-                    <failOnError>true</failOnError>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
