@@ -1,5 +1,6 @@
 package com.duplxey.javasimpleirc.client.gui.controller;
 
+import com.duplxey.javasimpleirc.client.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.client.gui.view.LoginFrame;
@@ -7,12 +8,12 @@ import com.duplxey.javasimpleirc.util.regex.RegexUtil;
 
 public class LoginFrameController implements Controller {
 
-    private GUIManager guiManager;
+    private IRCClient ircClient;
 
     private LoginFrame loginFrame;
 
-    public LoginFrameController(GUIManager guiManager) {
-        this.guiManager = guiManager;
+    public LoginFrameController(IRCClient ircClient) {
+        this.ircClient = ircClient;
 
         loginFrame = new LoginFrame(this);
         initComponents();
@@ -59,6 +60,22 @@ public class LoginFrameController implements Controller {
             if (!username.matches(RegexUtil.getUsernameRegex())) {
                 loginFrame.getUsernameHelpLabel().setText("Username doesn't match regex.");
                 loginFrame.getUsernameHelpLabel().setVisible(true);
+            }
+
+            // If there are no errors, proceed with the connection
+            if (!loginFrame.getHostHelpLabel().isVisible()
+                    && !loginFrame.getPortHelpLabel().isVisible()
+                    && !loginFrame.getUsernameHelpLabel().isVisible()) {
+
+                if (ircClient.connect(username, host, port)) {
+                    System.out.println("Successfully connected.");
+                    loginFrame.dispose();
+
+                    // This will open the next frame in the future
+                    // ircClient.getGuiManager().openMain();
+                } else {
+                    System.out.println("Connection failed.");
+                }
             }
         });
     }

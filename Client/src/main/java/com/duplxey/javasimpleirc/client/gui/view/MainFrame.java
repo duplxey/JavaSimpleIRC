@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
     public MainFrame(Controller controller) {
         setTitle(controller.getTitle());
         setSize(new Dimension(controller.getWidth(), controller.getHeight()));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(panel);
     }

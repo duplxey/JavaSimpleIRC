@@ -9,15 +9,19 @@ import java.net.Socket;
 
 public class ClientConnection extends Connection {
 
-    public ClientConnection(Socket socket) {
+    private IRCClient ircClient;
+
+    public ClientConnection(Socket socket, IRCClient ircClient) {
         super(socket);
+
+        this.ircClient = ircClient;
     }
 
     @Override
     public void onRequest(Request request) {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
-                respond(new Response(RequestType.FETCH_USERNAME, "Client"));
+                respond(new Response(RequestType.FETCH_USERNAME, ircClient.getUsername()));
         }
     }
 

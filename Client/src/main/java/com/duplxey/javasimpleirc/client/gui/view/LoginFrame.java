@@ -25,6 +25,7 @@ public class LoginFrame extends JFrame {
         $$$setupUI$$$();
         setTitle(controller.getTitle());
         setSize(new Dimension(controller.getWidth(), controller.getHeight()));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(panel);
     }

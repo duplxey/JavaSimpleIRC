@@ -1,21 +1,20 @@
 package com.duplxey.javasimpleirc.client.gui.controller;
 
+import com.duplxey.javasimpleirc.client.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.client.gui.view.MainFrame;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MainFrameController implements Controller {
 
-    private GUIManager guiManager;
+    private IRCClient ircClient;
 
     private MainFrame mainFrame;
 
-    public MainFrameController(GUIManager guiManager) {
-        this.guiManager = guiManager;
+    public MainFrameController(IRCClient ircClient) {
+        this.ircClient = ircClient;
 
         mainFrame = new MainFrame(this);
         initComponents();

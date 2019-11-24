@@ -5,37 +5,40 @@ import com.duplxey.javasimpleirc.util.connection.Connection;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class IRCClient {
+
+    private GUIManager guiManager;
 
     private String username;
     private Socket socket;
     private Connection connection;
 
     public IRCClient() {
-        init();
+        guiManager = new GUIManager(this);
+        guiManager.openLogin();
     }
 
-    private void init() {
-        GUIManager guiManager = new GUIManager();
-
-        System.out.println("Please enter your username:");
-        username = new Scanner(System.in).nextLine().trim();
+    public boolean connect(String username, String host, int port) {
+        this.username = username;
         try {
-            socket = new Socket("localhost", 5422);
-            connection = new ClientConnection(socket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            socket = new Socket(host, port);
+            connection = new ClientConnection(socket, this);
+            return true;
+        } catch (IOException ignored) {}
+        return false;
+    }
+
+    public boolean disconnect() {
+        return true;
+    }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    public Socket getSocket() {
-        return socket;
     }
 
     public Connection getConnection() {
