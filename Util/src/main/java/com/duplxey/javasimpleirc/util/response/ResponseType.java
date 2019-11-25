@@ -1,7 +1,5 @@
 package com.duplxey.javasimpleirc.util.response;
 
-import com.duplxey.javasimpleirc.util.request.RequestType;
-
 public enum ResponseType {
     CONNECT("CO"),
     DISCONNECT("DI"),

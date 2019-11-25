@@ -70,7 +70,7 @@ public class LoginFrameController implements Controller {
                     System.out.println("Successfully connected.");
                     loginFrame.dispose();
 
-//                    ircClient.getGuiManager().openMain();
+                    ircClient.getGuiManager().openMain();
                 } else {
                     System.out.println("Connection failed.");
                 }

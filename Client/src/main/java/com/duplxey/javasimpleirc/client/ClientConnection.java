@@ -37,7 +37,8 @@ public class ClientConnection extends Connection {
                 System.out.println(response.getContent() + " just disconnected.");
                 break;
             case MESSAGE:
-                System.out.println("Received: " + response.getContent());
+                String[] splitted = response.getContent().split("@", 2);
+                System.out.println(splitted[0] + ": " + splitted[1]);
                 break;
         }
     }

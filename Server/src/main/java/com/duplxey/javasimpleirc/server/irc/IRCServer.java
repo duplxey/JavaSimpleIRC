@@ -3,7 +3,6 @@ package com.duplxey.javasimpleirc.server.irc;
 import com.duplxey.javasimpleirc.server.Main;
 import com.duplxey.javasimpleirc.util.Message;
 import com.duplxey.javasimpleirc.util.data.ResourceUtil;
-import com.duplxey.javasimpleirc.util.request.RequestType;
 import com.duplxey.javasimpleirc.util.response.Response;
 import com.duplxey.javasimpleirc.util.response.ResponseType;
 import org.slf4j.Logger;

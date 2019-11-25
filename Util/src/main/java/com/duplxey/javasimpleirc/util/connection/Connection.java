@@ -2,6 +2,8 @@ package com.duplxey.javasimpleirc.util.connection;
 
 import com.duplxey.javasimpleirc.util.request.Request;
 import com.duplxey.javasimpleirc.util.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,6 +14,7 @@ public abstract class Connection {
 
     private Socket socket;
     private long establishedStamp;
+    private Logger logger = LoggerFactory.getLogger(Connection.class);
 
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -36,6 +39,7 @@ public abstract class Connection {
     }
 
     public void request(Request request) {
+        logger.debug("Sending a " + request.getRequestType() + " (" + request.getContent() + ") request.");
         try {
             dataOutputStream.writeUTF(request.toString());
         } catch (IOException e) {
@@ -46,6 +50,7 @@ public abstract class Connection {
     public abstract void onRequest(Request request);
 
     public void respond(Response response) {
+        logger.debug("Responding with a " + response.getResponseType() + " (" + response.getContent() + ") response.");
         try {
             dataOutputStream.writeUTF(response.toString());
         } catch (IOException e) {

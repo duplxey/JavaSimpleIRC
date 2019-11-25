@@ -30,7 +30,6 @@ public class AcceptorThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            logger.debug("Sending a FETCH_USERNAME request.");
             Connection connection = new ServerConnection(socket, ircServer);
             connection.request(new Request(RequestType.FETCH_USERNAME));
         }

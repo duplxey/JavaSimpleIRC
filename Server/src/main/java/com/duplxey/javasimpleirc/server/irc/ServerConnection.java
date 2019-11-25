@@ -26,13 +26,18 @@ public class ServerConnection extends Connection {
                 respond(new Response(ResponseType.USERNAME, "Server"));
                 break;
             case FETCH_CLIENTS:
-                respond(new Response(ResponseType.CLIENTS, "many"));
+                StringBuilder builder = new StringBuilder();
+                ircServer.getClients().values().forEach(client -> {
+                    builder.append(client.username);
+                    builder.append("@");
+                });
+                respond(new Response(ResponseType.CLIENTS, builder.toString().substring(0, builder.length()-1)));
                 break;
             case FETCH_MESSAGE_HISTORY:
                 respond(new Response(ResponseType.MESSAGE, "meme"));
                 break;
             case SEND_MESSAGE:
-                ircServer.broadcast(new Response(ResponseType.MESSAGE, request.getContent()));
+                ircServer.broadcast(new Response(ResponseType.MESSAGE, username + "@" + request.getContent()));
                 ircServer.addMessage(new Message(username, request.getContent()));
                 break;
         }
