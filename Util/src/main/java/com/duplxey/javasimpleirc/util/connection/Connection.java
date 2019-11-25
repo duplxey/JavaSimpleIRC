@@ -66,6 +66,10 @@ public abstract class Connection {
         }
     }
 
+    public long aliveSince() {
+        return System.currentTimeMillis() - establishedStamp;
+    }
+
     public Socket getSocket() {
         return socket;
     }
@@ -76,9 +80,5 @@ public abstract class Connection {
 
     public DataOutputStream getDataOutputStream() {
         return dataOutputStream;
-    }
-
-    public long aliveSince() {
-        return System.currentTimeMillis() - establishedStamp;
     }
 }

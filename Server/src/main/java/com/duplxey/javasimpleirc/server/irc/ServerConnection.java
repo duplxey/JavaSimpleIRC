@@ -3,8 +3,8 @@ package com.duplxey.javasimpleirc.server.irc;
 import com.duplxey.javasimpleirc.util.Message;
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.request.RequestType;
 import com.duplxey.javasimpleirc.util.response.Response;
+import com.duplxey.javasimpleirc.util.response.ResponseType;
 
 import java.net.Socket;
 
@@ -23,10 +23,16 @@ public class ServerConnection extends Connection {
     public void onRequest(Request request) {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
-                respond(new Response(RequestType.FETCH_USERNAME, "Server"));
+                respond(new Response(ResponseType.USERNAME, "Server"));
                 break;
-            case MESSAGE:
-                ircServer.broadcast(new Response(RequestType.MESSAGE, request.getContent()));
+            case FETCH_CLIENTS:
+                respond(new Response(ResponseType.CLIENTS, "many"));
+                break;
+            case FETCH_MESSAGE_HISTORY:
+                respond(new Response(ResponseType.MESSAGE, "meme"));
+                break;
+            case SEND_MESSAGE:
+                ircServer.broadcast(new Response(ResponseType.MESSAGE, request.getContent()));
                 ircServer.addMessage(new Message(username, request.getContent()));
                 break;
         }
@@ -34,11 +40,10 @@ public class ServerConnection extends Connection {
 
     @Override
     public void onResponse(Response response) {
-        switch (response.getRequestType()) {
-            case FETCH_USERNAME:
+        switch (response.getResponseType()) {
+            case USERNAME:
                 String username = response.getContent();
                 if (!ircServer.containsClient(username)) {
-                    System.out.println("addud");
                     ircServer.addClient(username, this);
                     this.username = username;
                 }

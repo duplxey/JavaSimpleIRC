@@ -3,7 +3,9 @@ package com.duplxey.javasimpleirc.server.irc;
 import com.duplxey.javasimpleirc.server.Main;
 import com.duplxey.javasimpleirc.util.Message;
 import com.duplxey.javasimpleirc.util.data.ResourceUtil;
+import com.duplxey.javasimpleirc.util.request.RequestType;
 import com.duplxey.javasimpleirc.util.response.Response;
+import com.duplxey.javasimpleirc.util.response.ResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,11 +43,13 @@ public class IRCServer {
     public void addClient(String username, ServerConnection serverConnection) {
         logger.info("Added a new client named '" + username + "'.");
         clients.put(username, serverConnection);
+        broadcast(new Response(ResponseType.CONNECT, username));
     }
 
     public void removeClient(String username) {
         logger.info("Removed a client named '" + username + "'.");
         clients.remove(username);
+        broadcast(new Response(ResponseType.DISCONNECT, username));
     }
 
     public boolean containsClient(String username) {

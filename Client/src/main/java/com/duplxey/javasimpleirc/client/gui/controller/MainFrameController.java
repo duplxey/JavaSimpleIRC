@@ -82,7 +82,7 @@ public class MainFrameController implements Controller {
     public void initListeners() {
         mainFrame.getSendButton().addActionListener(l -> {
             String message = mainFrame.getMessageInput().getText();
-            ircClient.getConnection().request(new Request(RequestType.MESSAGE, message));
+            ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
             mainFrame.getMessageInput().setText("");
         });
     }

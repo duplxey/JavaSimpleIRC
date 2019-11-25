@@ -1,19 +1,17 @@
 package com.duplxey.javasimpleirc.util.response;
 
-import com.duplxey.javasimpleirc.util.request.RequestType;
-
 public class Response {
 
-    private RequestType requestType;
+    private ResponseType responseType;
     private String content;
 
-    public Response(RequestType requestType, String content) {
-        this.requestType = requestType;
+    public Response(ResponseType responseType, String content) {
+        this.responseType = responseType;
         this.content = content;
     }
 
-    public RequestType getRequestType() {
-        return requestType;
+    public ResponseType getResponseType() {
+        return responseType;
     }
 
     public String getContent() {
@@ -22,6 +20,6 @@ public class Response {
 
     @Override
     public String toString() {
-        return "RES@" + requestType.getId() + "@" + content;
+        return "RES@" + responseType.getId() + "@" + content;
     }
 }

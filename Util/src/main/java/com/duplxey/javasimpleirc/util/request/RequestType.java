@@ -1,14 +1,10 @@
 package com.duplxey.javasimpleirc.util.request;
 
 public enum RequestType {
-    CONNECT("CO"),
-    DISCONNECT("DI"),
-
     FETCH_USERNAME("FU"),
     FETCH_CLIENTS("FC"),
     FETCH_MESSAGE_HISTORY("FM"),
-
-    MESSAGE("ME"),
+    SEND_MESSAGE("SM"),
     ;
 
     private String id;

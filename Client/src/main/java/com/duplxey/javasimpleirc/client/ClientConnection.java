@@ -4,6 +4,7 @@ import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.request.Request;
 import com.duplxey.javasimpleirc.util.request.RequestType;
 import com.duplxey.javasimpleirc.util.response.Response;
+import com.duplxey.javasimpleirc.util.response.ResponseType;
 
 import java.net.Socket;
 
@@ -21,15 +22,19 @@ public class ClientConnection extends Connection {
     public void onRequest(Request request) {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
-                respond(new Response(RequestType.FETCH_USERNAME, ircClient.getUsername()));
+                respond(new Response(ResponseType.USERNAME, ircClient.getUsername()));
+                break;
         }
     }
 
     @Override
     public void onResponse(Response response) {
-        switch (response.getRequestType()) {
-            case FETCH_USERNAME:
-                System.out.println("Got an username: " + response.getContent());
+        switch (response.getResponseType()) {
+            case CONNECT:
+                System.out.println(response.getContent() + " just connected.");
+                break;
+            case DISCONNECT:
+                System.out.println(response.getContent() + " just disconnected.");
                 break;
             case MESSAGE:
                 System.out.println("Received: " + response.getContent());
