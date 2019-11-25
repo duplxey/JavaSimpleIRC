@@ -1,7 +1,10 @@
 package com.duplxey.javasimpleirc.util.request;
 
 public enum RequestType {
-    FETCH_USERNAME("FE"),
+    FETCH_USERNAME("FU"),
+    FETCH_CLIENTS("FC"),
+    FETCH_MESSAGE_HISTORY("FM"),
+
     MESSAGE("ME"),
     ;
 
