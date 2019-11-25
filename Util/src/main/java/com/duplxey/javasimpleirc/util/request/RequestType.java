@@ -2,6 +2,7 @@ package com.duplxey.javasimpleirc.util.request;
 
 public enum RequestType {
     FETCH_USERNAME("FE"),
+    MESSAGE("ME"),
     ;
 
     private String id;

@@ -9,8 +9,12 @@ import java.net.Socket;
 
 public class ServerConnection extends Connection {
 
-    public ServerConnection(Socket socket) {
+    private IRCServer ircServer;
+
+    public ServerConnection(Socket socket, IRCServer ircServer) {
         super(socket);
+
+        this.ircServer = ircServer;
     }
 
     @Override
@@ -18,6 +22,10 @@ public class ServerConnection extends Connection {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
                 respond(new Response(RequestType.FETCH_USERNAME, "Server"));
+                break;
+            case MESSAGE:
+                ircServer.broadcast(new Response(RequestType.MESSAGE, request.getContent()));
+                break;
         }
     }
 
@@ -25,7 +33,11 @@ public class ServerConnection extends Connection {
     public void onResponse(Response response) {
         switch (response.getRequestType()) {
             case FETCH_USERNAME:
-                System.out.println("Got an username: " + response.getContent());
+                String username = response.getContent();
+                if (!ircServer.containsClient(username)) {
+                    System.out.println("Added a new client '" + username + "'.");
+                    ircServer.addClient(username, this);
+                }
         }
     }
 }

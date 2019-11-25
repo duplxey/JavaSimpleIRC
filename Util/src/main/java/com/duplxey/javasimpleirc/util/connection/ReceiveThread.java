@@ -28,6 +28,7 @@ public class ReceiveThread extends Thread {
                     connection.onRequest(new Request(type, splitted[2]));
                 }
             } catch (IOException e) {
+                System.out.println("Connection dropped! :O");
                 e.printStackTrace();
                 connection.destroy();
             }

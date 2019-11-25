@@ -71,8 +71,7 @@ public class LoginFrameController implements Controller {
                     System.out.println("Successfully connected.");
                     loginFrame.dispose();
 
-                    // This will open the next frame in the future
-                    // ircClient.getGuiManager().openMain();
+                    ircClient.getGuiManager().openMain();
                 } else {
                     System.out.println("Connection failed.");
                 }

@@ -30,6 +30,10 @@ public class ClientConnection extends Connection {
         switch (response.getRequestType()) {
             case FETCH_USERNAME:
                 System.out.println("Got an username: " + response.getContent());
+                break;
+            case MESSAGE:
+                System.out.println("Received: " + response.getContent());
+                break;
         }
     }
 }

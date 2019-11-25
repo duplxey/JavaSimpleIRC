@@ -4,6 +4,8 @@ import com.duplxey.javasimpleirc.client.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.client.gui.view.MainFrame;
+import com.duplxey.javasimpleirc.util.request.Request;
+import com.duplxey.javasimpleirc.util.request.RequestType;
 
 import javax.swing.*;
 
@@ -79,6 +81,11 @@ public class MainFrameController implements Controller {
 
     @Override
     public void initListeners() {
+        mainFrame.getSendButton().addActionListener(l -> {
+            String message = mainFrame.getMessageInput().getText();
+            ircClient.getConnection().request(new Request(RequestType.MESSAGE, message));
+            mainFrame.getMessageInput().setText("");
+        });
     }
 
     @Override
