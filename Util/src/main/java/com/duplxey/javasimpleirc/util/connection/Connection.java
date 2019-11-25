@@ -11,6 +11,7 @@ import java.net.Socket;
 public abstract class Connection {
 
     private Socket socket;
+    private long establishedStamp;
 
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -23,6 +24,7 @@ public abstract class Connection {
     }
 
     private void init() {
+        establishedStamp = System.currentTimeMillis();
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -64,11 +66,19 @@ public abstract class Connection {
         }
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     public DataInputStream getDataInputStream() {
         return dataInputStream;
     }
 
     public DataOutputStream getDataOutputStream() {
         return dataOutputStream;
+    }
+
+    public long aliveSince() {
+        return System.currentTimeMillis() - establishedStamp;
     }
 }

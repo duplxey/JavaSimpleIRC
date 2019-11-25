@@ -63,6 +63,10 @@ public class IRCServer {
         messageHistory.add(message);
     }
 
+    public LinkedHashMap<String, ServerConnection> getClients() {
+        return clients;
+    }
+
     public LinkedList<Message> getMessageHistory() {
         return messageHistory;
     }

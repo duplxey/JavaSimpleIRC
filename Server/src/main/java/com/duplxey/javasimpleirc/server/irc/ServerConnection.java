@@ -38,6 +38,7 @@ public class ServerConnection extends Connection {
             case FETCH_USERNAME:
                 String username = response.getContent();
                 if (!ircServer.containsClient(username)) {
+                    System.out.println("addud");
                     ircServer.addClient(username, this);
                     this.username = username;
                 }
