@@ -15,13 +15,14 @@ public class MainFrameController implements Controller {
     private IRCClient ircClient;
 
     private MainFrame mainFrame;
-    private DefaultListModel<String> messageModel = new DefaultListModel<>();
+    private JTextPane messagesPane;
     private DefaultListModel<String> userModel = new DefaultListModel<>();
 
     public MainFrameController(IRCClient ircClient) {
         this.ircClient = ircClient;
 
         mainFrame = new MainFrame(this);
+        messagesPane = mainFrame.getMessagesPane();
         initComponents();
         initListeners();
     }
@@ -55,8 +56,13 @@ public class MainFrameController implements Controller {
     }
 
     public void addMessage(String author, String message) {
-        messageModel.addElement("[" + DateUtil.getTime() + "] " + author + ": " + message);
-        mainFrame.getMessageList().setModel(messageModel);
+        StringBuilder builder = new StringBuilder();
+        builder.append(messagesPane.getText());
+        if (messagesPane.getText().length() != 0) {
+            builder.append("\n");
+        }
+        builder.append("[" + DateUtil.getTime() + "] " + author + ": " + message);
+        messagesPane.setText(builder.toString());
     }
 
     public void setClients(List<String> usernames) {
@@ -67,7 +73,7 @@ public class MainFrameController implements Controller {
     }
 
     public void addClient(String username) {
-        userModel.addElement(username);
+        userModel.addElement(username + (ircClient.getUsername().equalsIgnoreCase(username) ? " (you)" : ""));
         mainFrame.getUserList().setModel(userModel);
     }
 

@@ -10,14 +10,12 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     private JPanel panel;
-    private JScrollPane centerPane;
-    private JScrollPane rightPane;
-    private JScrollPane leftPane;
+    private JScrollPane messageScroller;
+    private JScrollPane usersScroller;
     private JList userList;
-    private JList channelList;
     private JTextField messageInput;
     private JButton sendButton;
-    private JList messageList;
+    private JTextPane messagesPane;
 
     public MainFrame(Controller controller) {
         setTitle(controller.getTitle());
@@ -27,24 +25,16 @@ public class MainFrame extends JFrame {
         add(panel);
     }
 
-    public JScrollPane getCenterPane() {
-        return centerPane;
+    public JScrollPane getMessageScroller() {
+        return messageScroller;
     }
 
-    public JScrollPane getRightPane() {
-        return rightPane;
-    }
-
-    public JScrollPane getLeftPane() {
-        return leftPane;
+    public JScrollPane getUsersScroller() {
+        return usersScroller;
     }
 
     public JList getUserList() {
         return userList;
-    }
-
-    public JList getChannelList() {
-        return channelList;
     }
 
     public JTextField getMessageInput() {
@@ -55,8 +45,8 @@ public class MainFrame extends JFrame {
         return sendButton;
     }
 
-    public JList getMessageList() {
-        return messageList;
+    public JTextPane getMessagesPane() {
+        return messagesPane;
     }
 
     {
@@ -76,15 +66,17 @@ public class MainFrame extends JFrame {
     private void $$$setupUI$$$() {
         panel = new JPanel();
         panel.setLayout(new GridLayoutManager(3, 2, new Insets(10, 10, 10, 10), -1, -1));
-        centerPane = new JScrollPane();
-        panel.add(centerPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        messageList = new JList();
-        messageList.setPreferredSize(new Dimension(0, 0));
-        centerPane.setViewportView(messageList);
-        rightPane = new JScrollPane();
-        panel.add(rightPane, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        messageScroller = new JScrollPane();
+        panel.add(messageScroller, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        messagesPane = new JTextPane();
+        messagesPane.setEditable(false);
+        messagesPane.setPreferredSize(new Dimension(50, 22));
+        messageScroller.setViewportView(messagesPane);
+        usersScroller = new JScrollPane();
+        panel.add(usersScroller, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         userList = new JList();
-        rightPane.setViewportView(userList);
+        userList.setEnabled(true);
+        usersScroller.setViewportView(userList);
         messageInput = new JTextField();
         panel.add(messageInput, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         sendButton = new JButton();
