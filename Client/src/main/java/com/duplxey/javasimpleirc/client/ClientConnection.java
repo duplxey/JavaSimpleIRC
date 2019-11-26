@@ -44,6 +44,14 @@ public class ClientConnection extends Connection {
                 String[] splitted = response.getContent().split("@", 2);
                 ircClient.getGuiManager().getMainFrameController().addMessage(splitted[0], splitted[1]);
                 break;
+            case MESSAGE_HISTORY:
+                ircClient.getGuiManager().getMainFrameController().addMessage("client", "Retrieving up to 10 messages.");
+                if (response.getContent().contains("@")) {
+                    for (String message : response.getContent().split("@")) {
+                        String[] parts = message.split("\\|");
+                        ircClient.getGuiManager().getMainFrameController().addMessage(parts[0], parts[1], Long.parseLong(parts[2]));
+                    }
+                }
         }
     }
 }

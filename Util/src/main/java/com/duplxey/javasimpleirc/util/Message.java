@@ -1,21 +1,19 @@
 package com.duplxey.javasimpleirc.util;
 
-import java.util.Date;
-
 public class Message {
 
     private String author;
     private String content;
-    private Date datetime;
+    private long timestamp;
 
-    public Message(String author, String content, Date datetime) {
+    public Message(String author, String content, long timestamp) {
         this.author = author;
         this.content = content;
-        this.datetime = datetime;
+        this.timestamp = timestamp;
     }
 
     public Message(String author, String content) {
-        this(author, content, new Date());
+        this(author, content, System.currentTimeMillis());
     }
 
     public String getAuthor() {
@@ -26,7 +24,12 @@ public class Message {
         return content;
     }
 
-    public Date getDatetime() {
-        return datetime;
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return getAuthor() + "|" + getContent() + "|" + getTimestamp();
     }
 }

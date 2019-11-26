@@ -37,7 +37,11 @@ public class ServerConnection extends Connection implements Droppable {
                 respond(new Response(ResponseType.CLIENTS, clientStr));
                 break;
             case FETCH_MESSAGE_HISTORY:
-                respond(new Response(ResponseType.MESSAGE, "meme"));
+                StringBuilder builder1 = new StringBuilder();
+                for (Message message : ircServer.getMessageHistory()) {
+                    builder1.append(message).append("@");
+                }
+                respond(new Response(ResponseType.MESSAGE_HISTORY, builder1.toString()));
                 break;
             case SEND_MESSAGE:
                 ircServer.broadcast(new Response(ResponseType.MESSAGE, username + "@" + request.getContent()));

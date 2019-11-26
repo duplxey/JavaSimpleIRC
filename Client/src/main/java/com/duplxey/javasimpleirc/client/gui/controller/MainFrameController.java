@@ -8,6 +8,7 @@ import com.duplxey.javasimpleirc.util.request.Request;
 import com.duplxey.javasimpleirc.util.request.RequestType;
 
 import javax.swing.*;
+import java.util.Date;
 import java.util.List;
 
 public class MainFrameController implements Controller {
@@ -55,14 +56,18 @@ public class MainFrameController implements Controller {
         });
     }
 
-    public void addMessage(String author, String message) {
+    public void addMessage(String author, String message, long timestamp) {
         StringBuilder builder = new StringBuilder();
         builder.append(messagesPane.getText());
         if (messagesPane.getText().length() != 0) {
             builder.append("\n");
         }
-        builder.append("[" + DateUtil.getTime() + "] " + author + ": " + message);
+        builder.append("[" + timestamp + "] " + author + ": " + message);
         messagesPane.setText(builder.toString());
+    }
+
+    public void addMessage(String author, String message) {
+        addMessage(author, message, System.currentTimeMillis());
     }
 
     public void setClients(List<String> usernames) {
