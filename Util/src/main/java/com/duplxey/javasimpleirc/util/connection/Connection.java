@@ -62,7 +62,7 @@ public abstract class Connection {
 
     public void destroy() {
         try {
-            receiveThread.destroy();
+            receiveThread.cancel();
             dataInputStream.close();
             dataOutputStream.close();
             socket.close();

@@ -2,13 +2,14 @@ package com.duplxey.javasimpleirc.server.irc;
 
 import com.duplxey.javasimpleirc.util.Message;
 import com.duplxey.javasimpleirc.util.connection.Connection;
+import com.duplxey.javasimpleirc.util.connection.Droppable;
 import com.duplxey.javasimpleirc.util.request.Request;
 import com.duplxey.javasimpleirc.util.response.Response;
 import com.duplxey.javasimpleirc.util.response.ResponseType;
 
 import java.net.Socket;
 
-public class ServerConnection extends Connection {
+public class ServerConnection extends Connection implements Droppable {
 
     private IRCServer ircServer;
     private String username = null;
@@ -53,5 +54,11 @@ public class ServerConnection extends Connection {
                     this.username = username;
                 }
         }
+    }
+
+    @Override
+    public void onDrop(Exception e) {
+        ircServer.removeClient(username);
+        destroy();
     }
 }

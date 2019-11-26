@@ -39,15 +39,6 @@ public class MainFrameController implements Controller {
 
     @Override
     public void initComponents() {
-        // This just fills up the lists with dummy data
-        String[] channelNames = new String[] {
-                "Random",
-                "School",
-                "Programming",
-                "Problems",
-                "Confession",
-                "Fun",
-        };
         String[] userNames = new String[] {
                 "mikey",
                 "johhny404",
@@ -61,11 +52,6 @@ public class MainFrameController implements Controller {
                 "[19:58] koolkid: does anyone know what 2+2 is?",
                 "[19:59] peter: i've got a problem, pls pm me",
         };
-        DefaultListModel<String> channelModel = new DefaultListModel<>();
-        for (String channel : channelNames) {
-            channelModel.addElement(channel);
-        }
-        mainFrame.getChannelList().setModel(channelModel);
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (String user : userNames) {
             userModel.addElement(user);

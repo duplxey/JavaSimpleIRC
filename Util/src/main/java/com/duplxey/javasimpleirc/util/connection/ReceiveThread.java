@@ -10,6 +10,7 @@ import java.io.IOException;
 public class ReceiveThread extends Thread {
 
     private Connection connection;
+    private boolean running = true;
 
     public ReceiveThread(Connection connection) {
         this.connection = connection;
@@ -17,7 +18,7 @@ public class ReceiveThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 String message = connection.getDataInputStream().readUTF();
                 String[] splitted = message.split("@", 3);
@@ -27,10 +28,16 @@ public class ReceiveThread extends Thread {
                     connection.onRequest(new Request(RequestType.byId(splitted[1]), splitted[2]));
                 }
             } catch (IOException e) {
-                System.out.println("Connection dropped! :O");
-                e.printStackTrace();
-                connection.destroy();
+                if (connection instanceof Droppable) {
+                    ((Droppable) connection).onDrop(e);
+                } else {
+                    connection.destroy();
+                }
             }
         }
+    }
+
+    public void cancel() {
+        running = false;
     }
 }
