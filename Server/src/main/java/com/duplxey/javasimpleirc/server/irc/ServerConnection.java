@@ -32,7 +32,9 @@ public class ServerConnection extends Connection implements Droppable {
                     builder.append(client.username);
                     builder.append("@");
                 });
-                respond(new Response(ResponseType.CLIENTS, builder.toString().substring(0, builder.length()-1)));
+                String clientStr = builder.toString();
+                if (clientStr.endsWith("@")) clientStr = clientStr.substring(0, clientStr.length()-1);
+                respond(new Response(ResponseType.CLIENTS, clientStr));
                 break;
             case FETCH_MESSAGE_HISTORY:
                 respond(new Response(ResponseType.MESSAGE, "meme"));

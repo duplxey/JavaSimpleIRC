@@ -8,8 +8,12 @@ public class GUIManager {
 
     private IRCClient ircClient;
 
+    private MainFrameController mainFrameController;
+
     public GUIManager(IRCClient ircClient) {
         this.ircClient = ircClient;
+
+        mainFrameController = new MainFrameController(ircClient);
     }
 
     public void openLogin() {
@@ -18,7 +22,10 @@ public class GUIManager {
     }
 
     public void openMain() {
-        MainFrameController mainFrameController = new MainFrameController(ircClient);
         mainFrameController.show();
+    }
+
+    public MainFrameController getMainFrameController() {
+        return mainFrameController;
     }
 }

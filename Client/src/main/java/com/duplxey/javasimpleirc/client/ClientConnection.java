@@ -7,6 +7,7 @@ import com.duplxey.javasimpleirc.util.response.Response;
 import com.duplxey.javasimpleirc.util.response.ResponseType;
 
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ClientConnection extends Connection {
 
@@ -31,14 +32,17 @@ public class ClientConnection extends Connection {
     public void onResponse(Response response) {
         switch (response.getResponseType()) {
             case CONNECT:
-                System.out.println(response.getContent() + " just connected.");
+                ircClient.getGuiManager().getMainFrameController().addClient(response.getContent());
                 break;
             case DISCONNECT:
-                System.out.println(response.getContent() + " just disconnected.");
+                ircClient.getGuiManager().getMainFrameController().removeClient(response.getContent());
+                break;
+            case CLIENTS:
+                ircClient.getGuiManager().getMainFrameController().setClients(Arrays.asList(response.getContent().split("@")));
                 break;
             case MESSAGE:
                 String[] splitted = response.getContent().split("@", 2);
-                System.out.println(splitted[0] + ": " + splitted[1]);
+                ircClient.getGuiManager().getMainFrameController().addMessage(splitted[0], splitted[1]);
                 break;
         }
     }

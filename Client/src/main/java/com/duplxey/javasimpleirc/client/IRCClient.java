@@ -2,9 +2,12 @@ package com.duplxey.javasimpleirc.client;
 
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.util.connection.Connection;
+import com.duplxey.javasimpleirc.util.request.Request;
+import com.duplxey.javasimpleirc.util.request.RequestType;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
 
 public class IRCClient {
 
@@ -24,6 +27,7 @@ public class IRCClient {
         try {
             socket = new Socket(host, port);
             connection = new ClientConnection(socket, this);
+            connection.request(new Request(RequestType.FETCH_CLIENTS));
             return true;
         } catch (IOException ignored) {}
         return false;
