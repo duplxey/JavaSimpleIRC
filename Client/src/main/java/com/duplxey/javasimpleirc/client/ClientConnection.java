@@ -1,15 +1,16 @@
 package com.duplxey.javasimpleirc.client;
 
 import com.duplxey.javasimpleirc.util.connection.Connection;
+import com.duplxey.javasimpleirc.util.connection.Droppable;
 import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.request.RequestType;
 import com.duplxey.javasimpleirc.util.response.Response;
 import com.duplxey.javasimpleirc.util.response.ResponseType;
 
+import javax.swing.*;
 import java.net.Socket;
 import java.util.Arrays;
 
-public class ClientConnection extends Connection {
+public class ClientConnection extends Connection implements Droppable {
 
     private IRCClient ircClient;
 
@@ -53,5 +54,12 @@ public class ClientConnection extends Connection {
                     }
                 }
         }
+    }
+
+    @Override
+    public void onDrop(Exception e) {
+        ircClient.getGuiManager().getMainFrameController().getMainFrame().dispose();
+        JOptionPane.showMessageDialog(null, "Socket connection has been dropped.", "Connection dropped.", JOptionPane.WARNING_MESSAGE);
+        ircClient.getConnection().destroy();
     }
 }

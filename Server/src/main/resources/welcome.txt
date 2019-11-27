@@ -6,7 +6,5 @@
  | |__| |____) |_| |_\__ \  __/ |   \ V /  __/ |     \ V /| || |_| |
   \____/|_____/|_____|___/\___|_|    \_/ \___|_|      \_/ |_(_)___/
                 Simple IRC server written in Java.
+            (https://github.com/duplxey/JavaSimpleIRC)
 
-  This project is open sourced at: https://github.com/duplxey/JavaSimpleIRC
-
-  Execute 'commands' in order to view all the commands.

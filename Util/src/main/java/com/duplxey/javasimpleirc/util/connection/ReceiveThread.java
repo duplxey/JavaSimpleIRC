@@ -20,8 +20,8 @@ public class ReceiveThread extends Thread {
     public void run() {
         while (running) {
             try {
-                String message = connection.getDataInputStream().readUTF();
-                String[] splitted = message.split("@", 3);
+                String data = connection.getDataInputStream().readUTF();
+                String[] splitted = data.split("@", 3);
                 if (splitted[0].equalsIgnoreCase("RES")) {
                     connection.onResponse(new Response(ResponseType.byId(splitted[1]), splitted[2]));
                 } else {
@@ -31,7 +31,7 @@ public class ReceiveThread extends Thread {
                 if (connection instanceof Droppable) {
                     ((Droppable) connection).onDrop(e);
                 } else {
-                    connection.destroy();
+                    e.printStackTrace();
                 }
             }
         }

@@ -5,6 +5,8 @@ import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.view.LoginFrame;
 import com.duplxey.javasimpleirc.util.regex.RegexUtil;
 
+import javax.swing.*;
+
 public class LoginFrameController implements Controller {
 
     private IRCClient ircClient;
@@ -73,6 +75,7 @@ public class LoginFrameController implements Controller {
                     ircClient.getGuiManager().openMain();
                 } else {
                     System.out.println("Connection failed.");
+                    JOptionPane.showMessageDialog(loginFrame, "Could not connect to the requested server.", "Connection failed.", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });

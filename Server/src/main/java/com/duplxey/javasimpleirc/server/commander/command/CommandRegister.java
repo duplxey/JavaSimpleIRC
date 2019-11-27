@@ -7,9 +7,10 @@ public class CommandRegister {
 
     public CommandRegister(IRCServer ircServer) {
         new CommandsCommand();
-        new ExitCommand();
+        new ExitCommand(ircServer);
         new InfoCommand();
         new ClientsCommand(ircServer);
         new MessageHistoryCommand(ircServer);
+        new KickCommand(ircServer);
     }
 }

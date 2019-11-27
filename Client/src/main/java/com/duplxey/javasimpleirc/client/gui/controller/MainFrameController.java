@@ -51,6 +51,14 @@ public class MainFrameController implements Controller {
     public void initListeners() {
         mainFrame.getSendButton().addActionListener(l -> {
             String message = mainFrame.getMessageInput().getText();
+            if (message.length() > 350) {
+                JOptionPane.showMessageDialog(mainFrame, "Message is too long!", "Message failed.", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (message.length() < 2) {
+                JOptionPane.showMessageDialog(mainFrame, "Message is too short!", "Message failed.", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
             mainFrame.getMessageInput().setText("");
         });
@@ -62,7 +70,7 @@ public class MainFrameController implements Controller {
         if (messagesPane.getText().length() != 0) {
             builder.append("\n");
         }
-        builder.append("[" + timestamp + "] " + author + ": " + message);
+        builder.append("[" + DateUtil.applyTimeFormat(new Date(timestamp)) + "] " + author + ": " + message);
         messagesPane.setText(builder.toString());
     }
 
@@ -90,5 +98,9 @@ public class MainFrameController implements Controller {
     @Override
     public void show() {
         mainFrame.setVisible(true);
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
     }
 }

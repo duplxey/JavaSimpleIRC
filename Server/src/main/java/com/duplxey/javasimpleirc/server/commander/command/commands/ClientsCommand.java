@@ -14,7 +14,7 @@ public class ClientsCommand extends Command {
     private IRCServer ircServer;
 
     public ClientsCommand(IRCServer ircServer) {
-        super("clients", "Displays connected clients + data.");
+        super("clients", "Displays currently connected clients (with their data).", new String[] {"online", "users", "connected"});
 
         this.ircServer = ircServer;
     }
@@ -26,7 +26,6 @@ public class ClientsCommand extends Command {
             Commander.getLogger().info("There are no clients connected.");
             return;
         }
-        Commander.getLogger().info("Currently connected clients: ");
         AsciiTable at = new AsciiTable();
         at.addRule();
         at.addRow("Username", "IP", "Time alive");
@@ -38,6 +37,6 @@ public class ClientsCommand extends Command {
             at.addRow(username, connection.getSocket().getRemoteSocketAddress(), connection.aliveSince()/1000 + "s");
             at.addRule();
         }
-        Commander.getLogger().info("\n" + at.render());
+        Commander.getLogger().info("Currently connected clients: \n" + at.render());
     }
 }

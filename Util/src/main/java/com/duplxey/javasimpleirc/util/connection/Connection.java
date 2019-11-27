@@ -27,6 +27,7 @@ public abstract class Connection {
     }
 
     private void init() {
+        logger.debug("Initialized a connection.");
         establishedStamp = System.currentTimeMillis();
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
@@ -61,6 +62,7 @@ public abstract class Connection {
     public abstract void onResponse(Response response);
 
     public void destroy() {
+        logger.debug("Connection has been destroyed.");
         try {
             receiveThread.cancel();
             dataInputStream.close();

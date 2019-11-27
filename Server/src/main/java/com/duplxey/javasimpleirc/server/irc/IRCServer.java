@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -65,6 +64,12 @@ public class IRCServer {
             messageHistory.removeFirst();
         }
         messageHistory.add(message);
+    }
+
+    public void close() {
+        for (ServerConnection client : clients.values()) {
+            client.destroy();
+        }
     }
 
     public LinkedHashMap<String, ServerConnection> getClients() {
