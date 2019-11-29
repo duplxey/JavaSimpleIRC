@@ -37,6 +37,12 @@
             <artifactId>asciitable</artifactId>
             <version>0.3.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.25</version>
+        </dependency>
     </dependencies>
 
 </project>
