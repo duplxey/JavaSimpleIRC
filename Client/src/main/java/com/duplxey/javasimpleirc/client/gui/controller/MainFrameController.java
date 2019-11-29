@@ -3,9 +3,9 @@ package com.duplxey.javasimpleirc.client.gui.controller;
 import com.duplxey.javasimpleirc.client.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.view.MainFrame;
-import com.duplxey.javasimpleirc.util.data.DateUtil;
-import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.request.RequestType;
+import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.request.RequestType;
+import com.duplxey.javasimpleirc.util.util.DateUtil;
 
 import javax.swing.*;
 import java.util.Date;

@@ -1,4 +1,6 @@
-package com.duplxey.javasimpleirc.util.response;
+package com.duplxey.javasimpleirc.util.packet.response;
+
+import com.duplxey.javasimpleirc.util.packet.PacketManager;
 
 public class Response {
 
@@ -20,6 +22,6 @@ public class Response {
 
     @Override
     public String toString() {
-        return "RES@" + responseType.getId() + "@" + content;
+        return PacketManager.RESPONSE_DELIMITER + "@" + responseType.getId() + "@" + content;
     }
 }

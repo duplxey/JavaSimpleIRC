@@ -1,19 +1,15 @@
-package com.duplxey.javasimpleirc.util.data;
+package com.duplxey.javasimpleirc.util.file;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ConfigFile {
 
-    private File directory;
-
     private File file;
     private YamlConfiguration config;
     private boolean isNew = false;
 
     public ConfigFile(File directory, String fileName) {
-        this.directory = directory;
-
         file = new File(directory, fileName);
 
         create();
@@ -42,10 +38,6 @@ public class ConfigFile {
 
     public boolean isNew() {
         return isNew;
-    }
-
-    public File getParentDirectory() {
-        return directory;
     }
 
     public File getFile() {

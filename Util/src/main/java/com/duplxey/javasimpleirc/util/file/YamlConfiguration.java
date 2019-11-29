@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.util.data;
+package com.duplxey.javasimpleirc.util.file;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -54,12 +54,20 @@ public class YamlConfiguration {
         return (String) data.get(key);
     }
 
-    public int getInt(String key) {
-        return (int) data.get(key);
+    public char getChar(String key) {
+        return (char) data.get(key);
+    }
+
+    public float getFloat(String key) {
+        return (float) data.get(key);
     }
 
     public double getDouble(String key) {
         return (double) data.get(key);
+    }
+
+    public int getInt(String key) {
+        return (int) data.get(key);
     }
 
     public boolean getBoolean(String key) {
@@ -71,12 +79,22 @@ public class YamlConfiguration {
         save();
     }
 
-    public void setInt(String key, int value) {
+    public void setChar(String key, char value) {
+        data.put(key, value);
+        save();
+    }
+
+    public void setFloat(String key, float value) {
         data.put(key, value);
         save();
     }
 
     public void setDouble(String key, double value) {
+        data.put(key, value);
+        save();
+    }
+
+    public void setInt(String key, int value) {
         data.put(key, value);
         save();
     }

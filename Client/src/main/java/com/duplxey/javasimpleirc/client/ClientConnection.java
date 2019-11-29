@@ -2,9 +2,9 @@ package com.duplxey.javasimpleirc.client;
 
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.connection.Droppable;
-import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.response.Response;
-import com.duplxey.javasimpleirc.util.response.ResponseType;
+import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.response.Response;
+import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
 
 import javax.swing.*;
 import java.net.Socket;

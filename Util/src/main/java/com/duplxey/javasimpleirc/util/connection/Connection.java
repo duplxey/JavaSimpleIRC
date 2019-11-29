@@ -1,7 +1,7 @@
 package com.duplxey.javasimpleirc.util.connection;
 
-import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.response.Response;
+import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +13,9 @@ import java.net.Socket;
 public abstract class Connection {
 
     private Socket socket;
-    private long establishedStamp;
     private Logger logger = LoggerFactory.getLogger(Connection.class);
 
+    private long establishedStamp;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
     private ReceiveThread receiveThread;

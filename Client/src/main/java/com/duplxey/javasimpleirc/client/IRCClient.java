@@ -2,8 +2,8 @@ package com.duplxey.javasimpleirc.client;
 
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.util.connection.Connection;
-import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.request.RequestType;
+import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.request.RequestType;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -1,4 +1,6 @@
-package com.duplxey.javasimpleirc.util.request;
+package com.duplxey.javasimpleirc.util.packet.request;
+
+import com.duplxey.javasimpleirc.util.packet.PacketManager;
 
 public class Request {
 
@@ -24,6 +26,6 @@ public class Request {
 
     @Override
     public String toString() {
-        return "REQ@" + requestType.getId() + "@" + content;
+        return PacketManager.REQUEST_DELIMITER +  "@" + requestType.getId() + "@" + content;
     }
 }

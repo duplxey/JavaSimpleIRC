@@ -1,6 +1,6 @@
 package com.duplxey.javasimpleirc.server.config;
 
-import com.duplxey.javasimpleirc.util.data.ConfigFile;
+import com.duplxey.javasimpleirc.util.file.ConfigFile;
 
 public class SettingsManager {
 

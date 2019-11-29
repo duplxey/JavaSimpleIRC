@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.util.request;
+package com.duplxey.javasimpleirc.util.packet.request;
 
 public enum RequestType {
     FETCH_SERVER_DATA("FD"),
@@ -12,6 +12,7 @@ public enum RequestType {
 
     RequestType(String id) {
         this.id = id;
+
     }
 
     public String getId() {

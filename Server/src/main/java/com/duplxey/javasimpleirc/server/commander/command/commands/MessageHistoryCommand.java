@@ -3,7 +3,7 @@ package com.duplxey.javasimpleirc.server.commander.command.commands;
 import com.duplxey.javasimpleirc.server.commander.Commander;
 import com.duplxey.javasimpleirc.server.commander.command.Command;
 import com.duplxey.javasimpleirc.server.irc.IRCServer;
-import com.duplxey.javasimpleirc.util.Message;
+import com.duplxey.javasimpleirc.util.packet.Message;
 
 public class MessageHistoryCommand extends Command {
 

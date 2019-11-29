@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.util.data;
+package com.duplxey.javasimpleirc.util.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

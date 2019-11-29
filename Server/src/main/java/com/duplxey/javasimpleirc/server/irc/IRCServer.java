@@ -2,10 +2,10 @@ package com.duplxey.javasimpleirc.server.irc;
 
 import com.duplxey.javasimpleirc.server.Main;
 import com.duplxey.javasimpleirc.server.config.SettingsManager;
-import com.duplxey.javasimpleirc.util.Message;
-import com.duplxey.javasimpleirc.util.data.ResourceUtil;
-import com.duplxey.javasimpleirc.util.response.Response;
-import com.duplxey.javasimpleirc.util.response.ResponseType;
+import com.duplxey.javasimpleirc.util.file.FileUtil;
+import com.duplxey.javasimpleirc.util.packet.Message;
+import com.duplxey.javasimpleirc.util.packet.response.Response;
+import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class IRCServer {
     public IRCServer(SettingsManager settingsManager) {
         this.settingsManager = settingsManager;
 
-        logger.info(ResourceUtil.getResourceContent(Main.class.getClassLoader(), "welcome.txt"));
+        logger.info(FileUtil.getResourceContent(Main.class.getClassLoader(), "welcome.txt"));
         int port = settingsManager.getConfigFile().getConfig().getInt("port");
         try {
             serverSocket = new ServerSocket(port);

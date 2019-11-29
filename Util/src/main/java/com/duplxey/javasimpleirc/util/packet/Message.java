@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.util;
+package com.duplxey.javasimpleirc.util.packet;
 
 public class Message {
 

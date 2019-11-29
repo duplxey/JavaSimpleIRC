@@ -1,8 +1,8 @@
 package com.duplxey.javasimpleirc.server.irc;
 
 import com.duplxey.javasimpleirc.util.connection.Connection;
-import com.duplxey.javasimpleirc.util.request.Request;
-import com.duplxey.javasimpleirc.util.request.RequestType;
+import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.request.RequestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

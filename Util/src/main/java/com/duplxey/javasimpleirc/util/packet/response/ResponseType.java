@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.util.response;
+package com.duplxey.javasimpleirc.util.packet.response;
 
 public enum ResponseType {
     SERVER_DATA("SD"),
