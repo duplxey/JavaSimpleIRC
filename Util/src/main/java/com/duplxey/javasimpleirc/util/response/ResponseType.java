@@ -1,6 +1,7 @@
 package com.duplxey.javasimpleirc.util.response;
 
 public enum ResponseType {
+    SERVER_DATA("SD"),
     CONNECT("CO"),
     DISCONNECT("DI"),
     USERNAME("US"),

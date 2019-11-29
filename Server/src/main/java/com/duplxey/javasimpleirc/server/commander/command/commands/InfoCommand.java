@@ -8,7 +8,7 @@ import com.duplxey.javasimpleirc.server.constants.Message;
 public class InfoCommand extends Command {
 
     public InfoCommand() {
-        super("info", "Displays the info of a command.", "<command> <target-command>");
+        super("info", "Displays the info of a command.", new String[] {"i"}, "<command> <target-command>");
     }
 
     @Override

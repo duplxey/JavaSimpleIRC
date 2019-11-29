@@ -25,7 +25,7 @@ public class YamlConfiguration {
             BufferedReader reader = new BufferedReader(new FileReader(file));
 
             DumperOptions dumperOptions = new DumperOptions();
-            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.AUTO);
+            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
             dumperOptions.setPrettyFlow(true);
 
             yaml = new Yaml(dumperOptions);

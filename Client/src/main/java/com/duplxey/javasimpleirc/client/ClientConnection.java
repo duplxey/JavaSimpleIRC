@@ -53,6 +53,10 @@ public class ClientConnection extends Connection implements Droppable {
                         ircClient.getGuiManager().getMainFrameController().addMessage(parts[0], parts[1], Long.parseLong(parts[2]));
                     }
                 }
+                break;
+            case SERVER_DATA:
+                ircClient.getGuiManager().getMainFrameController().getMainFrame().setTitle("JavaSimpleIRC | " + response.getContent());
+                break;
         }
     }
 

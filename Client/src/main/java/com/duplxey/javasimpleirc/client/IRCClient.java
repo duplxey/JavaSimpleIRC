@@ -26,6 +26,7 @@ public class IRCClient {
         try {
             socket = new Socket(host, port);
             connection = new ClientConnection(socket, this);
+            connection.request(new Request(RequestType.FETCH_SERVER_DATA));
             connection.request(new Request(RequestType.FETCH_CLIENTS));
             connection.request(new Request(RequestType.FETCH_MESSAGE_HISTORY));
             return true;

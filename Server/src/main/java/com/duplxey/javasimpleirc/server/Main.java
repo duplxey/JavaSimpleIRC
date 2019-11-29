@@ -8,8 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         SettingsManager settingsManager = new SettingsManager();
-
-        IRCServer ircServer = new IRCServer();
+        IRCServer ircServer = new IRCServer(settingsManager);
 
         Commander commander = new Commander(ircServer);
         commander.start();

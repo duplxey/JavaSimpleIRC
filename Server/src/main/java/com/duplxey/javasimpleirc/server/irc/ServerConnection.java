@@ -47,6 +47,9 @@ public class ServerConnection extends Connection implements Droppable {
                 ircServer.broadcast(new Response(ResponseType.MESSAGE, username + "@" + request.getContent()));
                 ircServer.addMessage(new Message(username, request.getContent()));
                 break;
+            case FETCH_SERVER_DATA:
+                respond(new Response(ResponseType.SERVER_DATA, ircServer.getSettingsManager().getConfigFile().getConfig().getString("name") + " (" + ircServer.getSettingsManager().getConfigFile().getConfig().getString("description") + ")"));
+                break;
         }
     }
 

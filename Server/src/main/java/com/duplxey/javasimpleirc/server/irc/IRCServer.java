@@ -1,6 +1,7 @@
 package com.duplxey.javasimpleirc.server.irc;
 
 import com.duplxey.javasimpleirc.server.Main;
+import com.duplxey.javasimpleirc.server.config.SettingsManager;
 import com.duplxey.javasimpleirc.util.Message;
 import com.duplxey.javasimpleirc.util.data.ResourceUtil;
 import com.duplxey.javasimpleirc.util.response.Response;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 
 public class IRCServer {
 
+    private SettingsManager settingsManager;
     private Logger logger = LoggerFactory.getLogger(IRCServer.class);
 
     private ServerSocket serverSocket;
@@ -22,10 +24,14 @@ public class IRCServer {
     private LinkedHashMap<String, ServerConnection> clients = new LinkedHashMap<>();
     private LinkedList<Message> messageHistory = new LinkedList<>();
 
-    public IRCServer() {
+    public IRCServer(SettingsManager settingsManager) {
+        this.settingsManager = settingsManager;
+
         logger.info(ResourceUtil.getResourceContent(Main.class.getClassLoader(), "welcome.txt"));
+        int port = settingsManager.getConfigFile().getConfig().getInt("port");
         try {
-            serverSocket = new ServerSocket(5422);
+            serverSocket = new ServerSocket(port);
+            logger.info("Listening on port: " + port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,6 +76,10 @@ public class IRCServer {
         for (ServerConnection client : clients.values()) {
             client.destroy();
         }
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     public LinkedHashMap<String, ServerConnection> getClients() {

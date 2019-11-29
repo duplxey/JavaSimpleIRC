@@ -10,7 +10,7 @@ public class ExitCommand extends Command {
     private IRCServer ircServer;
 
     public ExitCommand(IRCServer ircServer) {
-        super("exit", "Terminates the program.", new String[] {"quit"});
+        super("exit", "Terminates the program.", new String[] {"quit", "stop", "end"});
 
         this.ircServer = ircServer;
     }
