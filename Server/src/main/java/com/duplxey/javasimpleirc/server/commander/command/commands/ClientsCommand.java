@@ -24,13 +24,13 @@ public class ClientsCommand extends Command {
             return;
         }
         Commander.getLogger().info("Currently connected clients:");
-        Commander.getLogger().info("+------------------+------------------+----------------+");
-        Commander.getLogger().info("| Username         | IP               | Time alive     |");
-        Commander.getLogger().info("+------------------+------------------+----------------+");
-        String rowFormat = "| %-16s | %-15s | %-14d |";
+        Commander.getLogger().info("+------------------+----------------------------+------------+");
+        Commander.getLogger().info("| Username         | IP                         | Time alive |");
+        Commander.getLogger().info("+------------------+----------------------------+------------+");
+        String rowFormat = "| %-16s | %-26s | %-10d |";
         for (Map.Entry<String, ServerConnection> client : ircServer.getClients().entrySet()) {
             Commander.getLogger().info(String.format(rowFormat, client.getKey(), client.getValue().getSocket().getRemoteSocketAddress(), client.getValue().timeAlive()/1000));
         }
-        Commander.getLogger().info("+------------------+------------------+----------------+");
+        Commander.getLogger().info("+------------------+----------------------------+------------+");
     }
 }
