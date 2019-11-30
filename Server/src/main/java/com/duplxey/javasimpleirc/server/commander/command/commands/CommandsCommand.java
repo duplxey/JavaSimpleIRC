@@ -3,7 +3,6 @@ package com.duplxey.javasimpleirc.server.commander.command.commands;
 import com.duplxey.javasimpleirc.server.commander.Commander;
 import com.duplxey.javasimpleirc.server.commander.command.Command;
 import com.duplxey.javasimpleirc.server.commander.command.CommandManager;
-import de.vandermeer.asciitable.AsciiTable;
 
 public class CommandsCommand extends Command {
 
@@ -13,14 +12,14 @@ public class CommandsCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        AsciiTable at = new AsciiTable();
-        at.addRule();
-        at.addRow("Command", "Description", "Syntax");
-        at.addRule();
+        Commander.getLogger().info("Registered commands:");
+        Commander.getLogger().info("+--------------+---------------------------------------------+");
+        Commander.getLogger().info("| Command      | Description                                 |");
+        Commander.getLogger().info("+--------------+---------------------------------------------+");
+        String rowFormat = "| %-12s | %-43s |";
         for (Command command : CommandManager.getCommands()) {
-            at.addRow(command.getCommand(), command.getDescription(), command.getSyntax());
-            at.addRule();
+            Commander.getLogger().info(String.format(rowFormat, command.getCommand(), command.getDescription()));
         }
-        Commander.getLogger().info("List of all the registered commands: \n" + at.render());
+        Commander.getLogger().info("+--------------+---------------------------------------------+");
     }
 }

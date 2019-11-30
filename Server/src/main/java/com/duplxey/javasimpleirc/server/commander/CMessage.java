@@ -1,18 +1,15 @@
-package com.duplxey.javasimpleirc.server.constants;
+package com.duplxey.javasimpleirc.server.commander;
 
-/**
- * All the commonly used messages.
- */
-public enum Message {
+public enum CMessage {
     UNKNOWN_COMMAND("Unknown command! Use 'help' for help."),
     NO_COMMAND("Cannot find the specified command."),
     WRONG_SYNTAX("Wrong syntax! "),
-    PROGRAM_EXIT("Terminating the program."),
+    USER_NOT_FOUND("The specified user could not be found."),
     ;
 
     private String text;
 
-    Message(String text) {
+    CMessage(String text) {
         this.text = text;
     }
 

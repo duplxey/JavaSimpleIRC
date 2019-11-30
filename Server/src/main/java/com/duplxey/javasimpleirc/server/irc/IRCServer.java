@@ -28,7 +28,7 @@ public class IRCServer {
         this.settingsManager = settingsManager;
 
         logger.info(FileUtil.getResourceContent(Main.class.getClassLoader(), "welcome.txt"));
-        int port = settingsManager.getConfigFile().getConfig().getInt("port");
+        int port = settingsManager.getConfig().getInt("port");
         try {
             serverSocket = new ServerSocket(port);
             logger.info("Listening on port: " + port);
@@ -42,6 +42,10 @@ public class IRCServer {
     public void broadcast(Response response) {
         for (ServerConnection serverConnection : clients.values()) {
             serverConnection.respond(response);
+        }
+        if (response.getResponseType() == ResponseType.MESSAGE) {
+            String[] splitted = response.getContent().split("@", 2);
+            addMessage(new Message(splitted[0], splitted[1]));
         }
     }
 
@@ -76,10 +80,15 @@ public class IRCServer {
         for (ServerConnection client : clients.values()) {
             client.destroy();
         }
+        acceptorThread.cancel();
     }
 
     public SettingsManager getSettingsManager() {
         return settingsManager;
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
     public LinkedHashMap<String, ServerConnection> getClients() {
@@ -88,13 +97,5 @@ public class IRCServer {
 
     public LinkedList<Message> getMessageHistory() {
         return messageHistory;
-    }
-
-    public ServerSocket getServerSocket() {
-        return serverSocket;
-    }
-
-    public AcceptorThread getAcceptorThread() {
-        return acceptorThread;
     }
 }

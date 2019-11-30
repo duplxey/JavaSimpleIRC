@@ -11,9 +11,10 @@ import java.net.Socket;
 
 public class AcceptorThread extends Thread {
 
+    private IRCServer ircServer;
     private Logger logger = LoggerFactory.getLogger(AcceptorThread.class);
 
-    private IRCServer ircServer;
+    private boolean running = true;
 
     public AcceptorThread(IRCServer ircServer) {
         this.ircServer = ircServer;
@@ -22,7 +23,7 @@ public class AcceptorThread extends Thread {
     @Override
     public void run() {
         logger.info("Waiting for clients...");
-        while (true) {
+        while (running) {
             Socket socket = null;
             try {
                 socket = ircServer.getServerSocket().accept();
@@ -33,5 +34,9 @@ public class AcceptorThread extends Thread {
             Connection connection = new ServerConnection(socket, ircServer);
             connection.request(new Request(RequestType.FETCH_USERNAME));
         }
+    }
+
+    public void cancel() {
+        running = false;
     }
 }

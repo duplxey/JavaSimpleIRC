@@ -1,10 +1,11 @@
 package com.duplxey.javasimpleirc.util.packet.request;
 
 public enum RequestType {
-    FETCH_SERVER_DATA("FD"),
+    FETCH_SERVER_DATA("FSD"),
+    FETCH_SERVER_MOTD("FSM"),
     FETCH_USERNAME("FU"),
     FETCH_CLIENTS("FC"),
-    FETCH_MESSAGE_HISTORY("FM"),
+    FETCH_MESSAGE_HISTORY("FMH"),
     SEND_MESSAGE("SM"),
     ;
 

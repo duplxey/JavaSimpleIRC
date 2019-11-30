@@ -3,7 +3,6 @@ package com.duplxey.javasimpleirc.server.commander;
 import com.duplxey.javasimpleirc.server.commander.command.Command;
 import com.duplxey.javasimpleirc.server.commander.command.CommandManager;
 import com.duplxey.javasimpleirc.server.commander.command.CommandRegister;
-import com.duplxey.javasimpleirc.server.constants.Message;
 import com.duplxey.javasimpleirc.server.irc.IRCServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ public class Commander {
                 }
                 Command command = CommandManager.getCommand(cmd);
                 if (command == null) {
-                    Commander.getLogger().info(Message.UNKNOWN_COMMAND.getText());
+                    Commander.getLogger().info(CMessage.UNKNOWN_COMMAND.getText());
                 } else {
                     command.execute(arguments);
                 }

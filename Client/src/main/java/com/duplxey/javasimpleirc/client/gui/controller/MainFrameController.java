@@ -1,6 +1,6 @@
 package com.duplxey.javasimpleirc.client.gui.controller;
 
-import com.duplxey.javasimpleirc.client.IRCClient;
+import com.duplxey.javasimpleirc.client.irc.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.view.MainFrame;
 import com.duplxey.javasimpleirc.util.packet.request.Request;

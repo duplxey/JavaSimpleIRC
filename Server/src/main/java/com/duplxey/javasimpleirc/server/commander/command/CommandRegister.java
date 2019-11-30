@@ -10,7 +10,7 @@ public class CommandRegister {
         new ExitCommand(ircServer);
         new InfoCommand();
         new ClientsCommand(ircServer);
-        new MessageHistoryCommand(ircServer);
         new KickCommand(ircServer);
+        new SayCommand(ircServer);
     }
 }

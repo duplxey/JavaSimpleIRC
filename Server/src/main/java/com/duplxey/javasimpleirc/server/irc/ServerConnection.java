@@ -24,7 +24,7 @@ public class ServerConnection extends Connection implements Droppable {
     public void onRequest(Request request) {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
-                respond(new Response(ResponseType.USERNAME, "Server"));
+                respond(new Response(ResponseType.USERNAME, "server"));
                 break;
             case FETCH_CLIENTS:
                 StringBuilder builder = new StringBuilder();
@@ -45,10 +45,12 @@ public class ServerConnection extends Connection implements Droppable {
                 break;
             case SEND_MESSAGE:
                 ircServer.broadcast(new Response(ResponseType.MESSAGE, username + "@" + request.getContent()));
-                ircServer.addMessage(new Message(username, request.getContent()));
                 break;
             case FETCH_SERVER_DATA:
-                respond(new Response(ResponseType.SERVER_DATA, ircServer.getSettingsManager().getConfigFile().getConfig().getString("name") + " (" + ircServer.getSettingsManager().getConfigFile().getConfig().getString("description") + ")"));
+                respond(new Response(ResponseType.SERVER_DATA, ircServer.getSettingsManager().getConfig().getString("name") + " (" + ircServer.getSettingsManager().getConfig().getString("description") + ")"));
+                break;
+            case FETCH_SERVER_MOTD:
+                respond(new Response(ResponseType.SERVER_MOTD, ircServer.getSettingsManager().getConfig().getString("motd")));
                 break;
         }
     }

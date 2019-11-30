@@ -73,7 +73,7 @@ public abstract class Connection {
         }
     }
 
-    public long aliveSince() {
+    public long timeAlive() {
         return System.currentTimeMillis() - establishedStamp;
     }
 

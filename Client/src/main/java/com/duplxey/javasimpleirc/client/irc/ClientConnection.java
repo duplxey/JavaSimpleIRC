@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.client;
+package com.duplxey.javasimpleirc.client.irc;
 
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.connection.Droppable;
@@ -34,9 +34,11 @@ public class ClientConnection extends Connection implements Droppable {
         switch (response.getResponseType()) {
             case CONNECT:
                 ircClient.getGuiManager().getMainFrameController().addClient(response.getContent());
+                ircClient.getGuiManager().getMainFrameController().addMessage("client", response.getContent() + " just connected.");
                 break;
             case DISCONNECT:
                 ircClient.getGuiManager().getMainFrameController().removeClient(response.getContent());
+                ircClient.getGuiManager().getMainFrameController().addMessage("client", response.getContent() + " just disconnected.");
                 break;
             case CLIENTS:
                 ircClient.getGuiManager().getMainFrameController().setClients(Arrays.asList(response.getContent().split("@")));
@@ -46,7 +48,7 @@ public class ClientConnection extends Connection implements Droppable {
                 ircClient.getGuiManager().getMainFrameController().addMessage(splitted[0], splitted[1]);
                 break;
             case MESSAGE_HISTORY:
-                ircClient.getGuiManager().getMainFrameController().addMessage("client", "Retrieving up to 10 messages.");
+                ircClient.getGuiManager().getMainFrameController().addMessage("HISTORY", "Retrieving up to 10 messages.");
                 if (response.getContent().contains("@")) {
                     for (String message : response.getContent().split("@")) {
                         String[] parts = message.split("\\|");
@@ -56,6 +58,9 @@ public class ClientConnection extends Connection implements Droppable {
                 break;
             case SERVER_DATA:
                 ircClient.getGuiManager().getMainFrameController().getMainFrame().setTitle("JavaSimpleIRC | " + response.getContent());
+                break;
+            case SERVER_MOTD:
+                ircClient.getGuiManager().getMainFrameController().addMessage("MOTD", response.getContent());
                 break;
         }
     }

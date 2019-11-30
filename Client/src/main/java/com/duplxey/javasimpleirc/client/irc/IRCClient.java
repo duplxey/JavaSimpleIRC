@@ -1,4 +1,4 @@
-package com.duplxey.javasimpleirc.client;
+package com.duplxey.javasimpleirc.client.irc;
 
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
 import com.duplxey.javasimpleirc.util.connection.Connection;
@@ -13,8 +13,7 @@ public class IRCClient {
     private GUIManager guiManager;
 
     private String username;
-    private Socket socket;
-    private Connection connection;
+    private ClientConnection connection;
 
     public IRCClient() {
         guiManager = new GUIManager(this);
@@ -24,9 +23,10 @@ public class IRCClient {
     public boolean connect(String username, String host, int port) {
         this.username = username;
         try {
-            socket = new Socket(host, port);
+            Socket socket = new Socket(host, port);
             connection = new ClientConnection(socket, this);
             connection.request(new Request(RequestType.FETCH_SERVER_DATA));
+            connection.request(new Request(RequestType.FETCH_SERVER_MOTD));
             connection.request(new Request(RequestType.FETCH_CLIENTS));
             connection.request(new Request(RequestType.FETCH_MESSAGE_HISTORY));
             return true;
@@ -34,19 +34,19 @@ public class IRCClient {
         return false;
     }
 
-    public boolean disconnect() {
-        return true;
+    public void disconnect() {
+        connection.destroy();
     }
 
     public GUIManager getGuiManager() {
         return guiManager;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public Connection getConnection() {
         return connection;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

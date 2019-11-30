@@ -26,6 +26,6 @@ public class Request {
 
     @Override
     public String toString() {
-        return PacketManager.REQUEST_DELIMITER +  "@" + requestType.getId() + "@" + content;
+        return PacketManager.REQUEST_IDENTIFIER +  "@" + requestType.getId() + "@" + content;
     }
 }
