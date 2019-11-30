@@ -1,5 +1,6 @@
 package com.duplxey.javasimpleirc.client.irc;
 
+import com.duplxey.javasimpleirc.client.gui.controller.MainFrameController;
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.connection.Droppable;
 import com.duplxey.javasimpleirc.util.packet.request.Request;
@@ -31,43 +32,45 @@ public class ClientConnection extends Connection implements Droppable {
 
     @Override
     public void onResponse(Response response) {
+        MainFrameController mfc = ircClient.getGuiManager().getMainController();
         switch (response.getResponseType()) {
             case CONNECT:
-                ircClient.getGuiManager().getMainFrameController().addClient(response.getContent());
-                ircClient.getGuiManager().getMainFrameController().addMessage("client", response.getContent() + " just connected.");
+                mfc.addClient(response.getContent());
+                mfc.addMessage("client", response.getContent() + " just connected.");
                 break;
             case DISCONNECT:
-                ircClient.getGuiManager().getMainFrameController().removeClient(response.getContent());
-                ircClient.getGuiManager().getMainFrameController().addMessage("client", response.getContent() + " just disconnected.");
+                mfc.removeClient(response.getContent());
+                mfc.addMessage("client", response.getContent() + " just disconnected.");
                 break;
             case CLIENTS:
-                ircClient.getGuiManager().getMainFrameController().setClients(Arrays.asList(response.getContent().split("@")));
+                mfc.setClients(Arrays.asList(response.getContent().split("@")));
                 break;
             case MESSAGE:
                 String[] splitted = response.getContent().split("@", 2);
-                ircClient.getGuiManager().getMainFrameController().addMessage(splitted[0], splitted[1]);
+                mfc.addMessage(splitted[0], splitted[1]);
                 break;
             case MESSAGE_HISTORY:
-                ircClient.getGuiManager().getMainFrameController().addMessage("HISTORY", "Retrieving up to 10 messages.");
+                mfc.addMessage("HISTORY", "Retrieving up to 10 messages.");
                 if (response.getContent().contains("@")) {
                     for (String message : response.getContent().split("@")) {
                         String[] parts = message.split("\\|");
-                        ircClient.getGuiManager().getMainFrameController().addMessage(parts[0], parts[1], Long.parseLong(parts[2]));
+                        mfc.addMessage(parts[0], parts[1], Long.parseLong(parts[2]));
                     }
                 }
                 break;
             case SERVER_DATA:
-                ircClient.getGuiManager().getMainFrameController().getMainFrame().setTitle("JavaSimpleIRC | " + response.getContent());
+                mfc.getMainFrame().setTitle("JavaSimpleIRC | " + response.getContent());
                 break;
             case SERVER_MOTD:
-                ircClient.getGuiManager().getMainFrameController().addMessage("MOTD", response.getContent());
+                mfc.addMessage("MOTD", response.getContent());
                 break;
         }
     }
 
     @Override
     public void onDrop(Exception e) {
-        ircClient.getGuiManager().getMainFrameController().getMainFrame().dispose();
+        MainFrameController mfc = ircClient.getGuiManager().getMainController();
+        mfc.getMainFrame().dispose();
         JOptionPane.showMessageDialog(null, "Socket connection has been dropped.", "Connection dropped.", JOptionPane.WARNING_MESSAGE);
         ircClient.getConnection().destroy();
     }

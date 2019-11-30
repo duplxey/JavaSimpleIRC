@@ -8,6 +8,8 @@ import com.duplxey.javasimpleirc.util.packet.request.RequestType;
 import com.duplxey.javasimpleirc.util.util.DateUtil;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Date;
 import java.util.List;
 
@@ -50,18 +52,29 @@ public class MainFrameController implements Controller {
     @Override
     public void initListeners() {
         mainFrame.getSendButton().addActionListener(l -> {
-            String message = mainFrame.getMessageInput().getText();
-            if (message.length() > 350) {
-                JOptionPane.showMessageDialog(mainFrame, "Message is too long!", "Message failed.", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (message.length() < 2) {
-                JOptionPane.showMessageDialog(mainFrame, "Message is too short!", "Message failed.", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
-            mainFrame.getMessageInput().setText("");
+            sendMessage();
         });
+        mainFrame.getMessageInput().addKeyListener(new KeyListener() {
+            @Override public void keyTyped(KeyEvent e) {}
+            @Override public void keyPressed(KeyEvent e) { }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    sendMessage();
+                }
+            }
+        });
+    }
+
+    private void sendMessage() {
+        String message = mainFrame.getMessageInput().getText();
+        if (message.length() > 350) {
+            JOptionPane.showMessageDialog(mainFrame, "Message is too long!", "Message failed.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (message.length() == 0) return;
+        ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
+        mainFrame.getMessageInput().setText("");
     }
 
     public void addMessage(String author, String message, long timestamp) {

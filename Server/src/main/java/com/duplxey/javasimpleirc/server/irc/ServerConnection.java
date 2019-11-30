@@ -6,6 +6,7 @@ import com.duplxey.javasimpleirc.util.packet.Message;
 import com.duplxey.javasimpleirc.util.packet.request.Request;
 import com.duplxey.javasimpleirc.util.packet.response.Response;
 import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
+import com.duplxey.javasimpleirc.util.regex.RegexUtil;
 
 import java.net.Socket;
 
@@ -60,10 +61,12 @@ public class ServerConnection extends Connection implements Droppable {
         switch (response.getResponseType()) {
             case USERNAME:
                 String username = response.getContent();
-                if (!ircServer.containsClient(username)) {
-                    ircServer.addClient(username, this);
-                    this.username = username;
+                if (!username.matches(RegexUtil.getUsernameRegex()) || ircServer.containsClient(username)) {
+                    destroy();
+                    return;
                 }
+                ircServer.addClient(username, this);
+                this.username = username;
         }
     }
 

@@ -1,31 +1,32 @@
 package com.duplxey.javasimpleirc.client.gui;
 
-import com.duplxey.javasimpleirc.client.irc.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.controller.LoginFrameController;
 import com.duplxey.javasimpleirc.client.gui.controller.MainFrameController;
+import com.duplxey.javasimpleirc.client.irc.IRCClient;
 
 public class GUIManager {
 
-    private IRCClient ircClient;
-
-    private MainFrameController mainFrameController;
+    private LoginFrameController loginController;
+    private MainFrameController mainController;
 
     public GUIManager(IRCClient ircClient) {
-        this.ircClient = ircClient;
-
-        mainFrameController = new MainFrameController(ircClient);
+        loginController = new LoginFrameController(ircClient);
+        mainController = new MainFrameController(ircClient);
     }
 
     public void openLogin() {
-        LoginFrameController loginFrameController = new LoginFrameController(ircClient);
-        loginFrameController.show();
+        loginController.show();
     }
 
     public void openMain() {
-        mainFrameController.show();
+        mainController.show();
     }
 
-    public MainFrameController getMainFrameController() {
-        return mainFrameController;
+    public LoginFrameController getLoginController() {
+        return loginController;
+    }
+
+    public MainFrameController getMainController() {
+        return mainController;
     }
 }
