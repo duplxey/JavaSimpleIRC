@@ -3,8 +3,9 @@ package com.duplxey.javasimpleirc.server.commander.command.commands;
 import com.duplxey.javasimpleirc.server.commander.CMessage;
 import com.duplxey.javasimpleirc.server.commander.Commander;
 import com.duplxey.javasimpleirc.server.commander.command.Command;
-import com.duplxey.javasimpleirc.server.irc.ChannelManager;
 import com.duplxey.javasimpleirc.server.irc.IRCServer;
+import com.duplxey.javasimpleirc.server.irc.channel.Channel;
+import com.duplxey.javasimpleirc.server.irc.channel.ChannelManager;
 import com.duplxey.javasimpleirc.util.regex.RegexUtil;
 
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class ChannelCommand extends Command {
             Commander.getLogger().info("+--------------+---------------------------------------------+");
             String rowFormat = "| %-12d | %-43s |";
             int i = 0;
-            for (String channel : channelManager.getRegisteredChannels()) {
-                Commander.getLogger().info(String.format(rowFormat, i, channel));
+            for (Channel channel : channelManager.getChannels()) {
+                Commander.getLogger().info(String.format(rowFormat, i, channel.getName()));
                 i++;
             }
             Commander.getLogger().info("+--------------+---------------------------------------------+");
@@ -49,12 +50,12 @@ public class ChannelCommand extends Command {
             String operation = args[0];
             String channelName = args[1];
             if (!channelName.matches(RegexUtil.getChannelRegex())) {
-                Commander.getLogger().info("Channel name doesn't match the regex.");
+                Commander.getLogger().info(CMessage.REGEX_NO_MATCH.getText());
                 return;
             }
             if (addOperations.contains(operation)) {
                 if (channelManager.existsChannel(channelName)) {
-                    Commander.getLogger().info("Channel with the specified name already exists.");
+                    Commander.getLogger().info(CMessage.CHANNEL_EXISTS.getText());
                     return;
                 }
                 channelManager.addChannel(channelName);
@@ -62,7 +63,7 @@ public class ChannelCommand extends Command {
                 return;
             } else if (removeOperations.contains(operation)) {
                 if (!channelManager.existsChannel(channelName)) {
-                    Commander.getLogger().info("Channel with the specified name doesn't exist.");
+                    Commander.getLogger().info(CMessage.CHANNEL_DOESNT_EXIST.getText());
                     return;
                 }
                 channelManager.removeChannel(channelName);
@@ -78,11 +79,11 @@ public class ChannelCommand extends Command {
                 try {
                     index = Integer.parseInt(args[2]);
                 } catch (NumberFormatException e) {
-                    Commander.getLogger().info("Index could not be converted to an integer.");
+                    Commander.getLogger().info(CMessage.NOT_INTEGER.getText());
                     return;
                 }
                 if (!channelManager.existsChannel(channelName)) {
-                    Commander.getLogger().info("Channel with the specified name doesn't exist.");
+                    Commander.getLogger().info(CMessage.CHANNEL_DOESNT_EXIST.getText());
                     return;
                 }
                 channelManager.moveChannel(channelName, index);

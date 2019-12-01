@@ -3,10 +3,15 @@ package com.duplxey.javasimpleirc.util.packet.request;
 public enum RequestType {
     FETCH_SERVER_DATA("FSD"),
     FETCH_SERVER_MOTD("FSM"),
+
+    FETCH_CHANNEL_LIST("FCL"),
+    FETCH_CHANNEL_HISTORY("FMH"),
+    FETCH_CHANNEL_CLIENTS("FCC"),
+    CHANNEL_CONNECT("CC"),
+    CHANNEL_SEND_MESSAGE("CSM"),
+
     FETCH_USERNAME("FU"),
-    FETCH_CLIENTS("FC"),
-    FETCH_MESSAGE_HISTORY("FMH"),
-    SEND_MESSAGE("SM"),
+
     ;
 
     private String id;

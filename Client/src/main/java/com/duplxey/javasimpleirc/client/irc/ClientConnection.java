@@ -3,7 +3,9 @@ package com.duplxey.javasimpleirc.client.irc;
 import com.duplxey.javasimpleirc.client.gui.controller.MainFrameController;
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.connection.Droppable;
+import com.duplxey.javasimpleirc.util.packet.PacketManager;
 import com.duplxey.javasimpleirc.util.packet.request.Request;
+import com.duplxey.javasimpleirc.util.packet.request.RequestType;
 import com.duplxey.javasimpleirc.util.packet.response.Response;
 import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
 
@@ -26,6 +28,7 @@ public class ClientConnection extends Connection implements Droppable {
         switch (request.getRequestType()) {
             case FETCH_USERNAME:
                 respond(new Response(ResponseType.USERNAME, ircClient.getUsername()));
+                request(new Request(RequestType.CHANNEL_CONNECT));
                 break;
         }
     }
@@ -34,27 +37,36 @@ public class ClientConnection extends Connection implements Droppable {
     public void onResponse(Response response) {
         MainFrameController mfc = ircClient.getGuiManager().getMainController();
         switch (response.getResponseType()) {
-            case CONNECT:
+            case CHANNEL_OTHER_CONNECT:
                 mfc.addClient(response.getContent());
-                mfc.addMessage("client", response.getContent() + " just connected.");
                 break;
-            case DISCONNECT:
+            case CHANNEL_DISCONNECT:
                 mfc.removeClient(response.getContent());
-                mfc.addMessage("client", response.getContent() + " just disconnected.");
                 break;
-            case CLIENTS:
-                mfc.setClients(Arrays.asList(response.getContent().split("@")));
+            case CHANNEL_CLIENTS:
+                mfc.setClients(Arrays.asList(response.getContent().split(PacketManager.DELIMITER)));
                 break;
-            case MESSAGE:
-                String[] splitted = response.getContent().split("@", 2);
+            case CHANNEL_MESSAGE:
+                String[] splitted = response.getContent().split(PacketManager.DELIMITER, 2);
                 mfc.addMessage(splitted[0], splitted[1]);
                 break;
-            case MESSAGE_HISTORY:
+            case MESSAGE:
+                String[] splitted1 = response.getContent().split(PacketManager.DELIMITER, 2);
+                mfc.addMessage(splitted1[0], splitted1[1]);
+                break;
+            case CHANNEL_HISTORY:
                 mfc.addMessage("HISTORY", "Retrieving up to 10 messages.");
-                if (response.getContent().contains("@")) {
-                    for (String message : response.getContent().split("@")) {
+                if (response.getContent().contains(PacketManager.DELIMITER)) {
+                    for (String message : response.getContent().split(PacketManager.DELIMITER)) {
                         String[] parts = message.split("\\|");
                         mfc.addMessage(parts[0], parts[1], Long.parseLong(parts[2]));
+                    }
+                }
+                break;
+            case CHANNEL_LIST:
+                if (response.getContent().contains(PacketManager.DELIMITER)) {
+                    for (String channel : response.getContent().split(PacketManager.DELIMITER)) {
+                        mfc.addChannel(channel);
                     }
                 }
                 break;
@@ -63,6 +75,13 @@ public class ClientConnection extends Connection implements Droppable {
                 break;
             case SERVER_MOTD:
                 mfc.addMessage("MOTD", response.getContent());
+                break;
+            case CHANNEL_CONNECT:
+                mfc.clearMessages();
+                mfc.clearClients();
+                request(new Request(RequestType.FETCH_SERVER_MOTD));
+                request(new Request(RequestType.FETCH_CHANNEL_CLIENTS));
+                request(new Request(RequestType.FETCH_CHANNEL_HISTORY));
                 break;
         }
     }

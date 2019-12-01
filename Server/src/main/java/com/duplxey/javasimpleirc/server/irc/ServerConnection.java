@@ -1,57 +1,88 @@
 package com.duplxey.javasimpleirc.server.irc;
 
+import com.duplxey.javasimpleirc.server.irc.channel.Channel;
 import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.connection.Droppable;
 import com.duplxey.javasimpleirc.util.packet.Message;
+import com.duplxey.javasimpleirc.util.packet.PacketManager;
 import com.duplxey.javasimpleirc.util.packet.request.Request;
 import com.duplxey.javasimpleirc.util.packet.response.Response;
 import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
 import com.duplxey.javasimpleirc.util.regex.RegexUtil;
+import com.duplxey.javasimpleirc.util.util.StringUtil;
 
 import java.net.Socket;
 
 public class ServerConnection extends Connection implements Droppable {
 
     private IRCServer ircServer;
+
+    private IRCServerSettings settings;
     private String username = null;
+    private Channel channel = null;
 
     public ServerConnection(Socket socket, IRCServer ircServer) {
         super(socket);
 
         this.ircServer = ircServer;
+        this.settings = ircServer.getSettings();
     }
 
     @Override
     public void onRequest(Request request) {
         switch (request.getRequestType()) {
-            case FETCH_USERNAME:
-                respond(new Response(ResponseType.USERNAME, "server"));
-                break;
-            case FETCH_CLIENTS:
-                StringBuilder builder = new StringBuilder();
-                ircServer.getClients().values().forEach(client -> {
-                    builder.append(client.username);
-                    builder.append("@");
-                });
-                String clientStr = builder.toString();
-                if (clientStr.endsWith("@")) clientStr = clientStr.substring(0, clientStr.length()-1);
-                respond(new Response(ResponseType.CLIENTS, clientStr));
-                break;
-            case FETCH_MESSAGE_HISTORY:
-                StringBuilder builder1 = new StringBuilder();
-                for (Message message : ircServer.getMessageHistory()) {
-                    builder1.append(message).append("@");
-                }
-                respond(new Response(ResponseType.MESSAGE_HISTORY, builder1.toString()));
-                break;
-            case SEND_MESSAGE:
-                ircServer.broadcast(new Response(ResponseType.MESSAGE, username + "@" + request.getContent()));
-                break;
             case FETCH_SERVER_DATA:
-                respond(new Response(ResponseType.SERVER_DATA, ircServer.getSettingsManager().getConfig().getString("name") + " (" + ircServer.getSettingsManager().getConfig().getString("description") + ")"));
+                respond(new Response(ResponseType.SERVER_DATA, settings.getName() + " (" + settings.getDescription() + ")"));
                 break;
             case FETCH_SERVER_MOTD:
-                respond(new Response(ResponseType.SERVER_MOTD, ircServer.getSettingsManager().getConfig().getString("motd")));
+                respond(new Response(ResponseType.SERVER_MOTD, settings.getMOTD()));
+                break;
+            case FETCH_CHANNEL_LIST:
+                StringBuilder channelBuilder = new StringBuilder();
+                for (Channel channel : ircServer.getChannelManager().getChannels()) {
+                    channelBuilder.append(channel.getName()).append(PacketManager.DELIMITER);
+                }
+                respond(new Response(ResponseType.CHANNEL_LIST, StringUtil.cutLast(channelBuilder.toString())));
+                break;
+            case FETCH_CHANNEL_HISTORY:
+                // We can safely ignore this message if channel hasn't been set yet.
+                if (channel == null) {
+                    return;
+                }
+                StringBuilder historyBuilder = new StringBuilder();
+                for (Message message : channel.getMessageHistory()) {
+                    historyBuilder.append(message).append(PacketManager.DELIMITER);
+                }
+                respond(new Response(ResponseType.CHANNEL_HISTORY, StringUtil.cutLast(historyBuilder.toString())));
+                break;
+            case FETCH_CHANNEL_CLIENTS:
+                // We can safely ignore this message if channel hasn't been set yet.
+                if (channel == null) {
+                    return;
+                }
+                StringBuilder clientBuilder = new StringBuilder();
+                for (ServerConnection client : channel.getClients().values()) {
+                    clientBuilder.append(client.getUsername()).append(PacketManager.DELIMITER);
+                }
+                respond(new Response(ResponseType.CHANNEL_CLIENTS, clientBuilder.toString()));
+                break;
+            case CHANNEL_CONNECT:
+                String channelName = request.getContent();
+                // If the specified channel doesn't exist, let's return the default one
+                if (channelName == null || !ircServer.getChannelManager().existsChannel(channelName)) {
+                    channelName = ircServer.getChannelManager().getDefaultChannel().getName();
+                }
+                // If the client is already in a channel, disconnect him from the old one
+                if (channel != null) channel.disconnect(username);
+                channel = ircServer.getChannelManager().getChannel(channelName);
+                channel.connect(username, this);
+                respond(new Response(ResponseType.CHANNEL_CONNECT, channelName));
+                break;
+            case CHANNEL_SEND_MESSAGE:
+                channel.broadcast(new Response(ResponseType.CHANNEL_MESSAGE, username + PacketManager.DELIMITER + request.getContent()));
+                break;
+            case FETCH_USERNAME:
+                respond(new Response(ResponseType.USERNAME, ircServer.getSettings().getName()));
                 break;
         }
     }
@@ -65,14 +96,17 @@ public class ServerConnection extends Connection implements Droppable {
                     destroy();
                     return;
                 }
-                ircServer.addClient(username, this);
                 this.username = username;
         }
     }
 
     @Override
     public void onDrop(Exception e) {
-        ircServer.removeClient(username);
+        channel.disconnect(username);
         destroy();
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

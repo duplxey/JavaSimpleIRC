@@ -35,7 +35,7 @@ public class MainFrameController implements Controller {
 
     @Override
     public String getTitle() {
-        return "JavaSimpleIRC";
+        return "JavaSimpleIRC | %data%";
     }
 
     @Override
@@ -50,14 +50,7 @@ public class MainFrameController implements Controller {
 
     @Override
     public void initComponents() {
-        channelModel.addElement("#welcome");
-        channelModel.addElement("#general");
-        channelModel.addElement("#rules");
-        channelModel.addElement("#help");
-        channelModel.addElement("#fun");
-        mainFrame.getChannelList().setModel(channelModel);
         mainFrame.getChannelList().setSelectedIndex(0);
-        mainFrame.getChannelLabel().setText(mainFrame.getChannelList().getSelectedValue().toString());
     }
 
     @Override
@@ -68,6 +61,7 @@ public class MainFrameController implements Controller {
         mainFrame.getMessageInput().addKeyListener(new KeyListener() {
             @Override public void keyTyped(KeyEvent e) {}
             @Override public void keyPressed(KeyEvent e) { }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -76,29 +70,15 @@ public class MainFrameController implements Controller {
             }
         });
         mainFrame.getChannelList().addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
+            @Override public void mouseClicked(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseEntered(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                mainFrame.getChannelLabel().setText(mainFrame.getChannelList().getSelectedValue().toString());
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+                String channelName = mainFrame.getChannelList().getSelectedValue().toString().replaceAll("#", "");
+                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName));
             }
         });
     }
@@ -110,7 +90,7 @@ public class MainFrameController implements Controller {
             return;
         }
         if (message.length() == 0) return;
-        ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
+        ircClient.getConnection().request(new Request(RequestType.CHANNEL_SEND_MESSAGE, message));
         mainFrame.getMessageInput().setText("");
     }
 
@@ -122,6 +102,15 @@ public class MainFrameController implements Controller {
         }
         builder.append("[" + DateUtil.applyTimeFormat(new Date(timestamp)) + "] " + author + ": " + message);
         messagesPane.setText(builder.toString());
+    }
+
+    public void clearMessages() {
+        mainFrame.getMessagesPane().setText("");
+    }
+
+    public void addChannel(String channelName) {
+        channelModel.addElement(channelName);
+        mainFrame.getChannelList().setModel(channelModel);
     }
 
     public void addMessage(String author, String message) {
@@ -142,6 +131,11 @@ public class MainFrameController implements Controller {
 
     public void removeClient(String username) {
         userModel.removeElement(username);
+        mainFrame.getUserList().setModel(userModel);
+    }
+
+    public void clearClients() {
+        userModel = new DefaultListModel<>();
         mainFrame.getUserList().setModel(userModel);
     }
 

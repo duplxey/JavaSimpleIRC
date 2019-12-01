@@ -14,5 +14,6 @@ public class CommandRegister {
         new SayCommand(ircServer);
         new MotdCommand(ircServer);
         new ChannelCommand(ircServer);
+        new CsayCommand(ircServer);
     }
 }

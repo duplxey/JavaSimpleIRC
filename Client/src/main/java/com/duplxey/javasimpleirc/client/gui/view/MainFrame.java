@@ -1,5 +1,6 @@
 package com.duplxey.javasimpleirc.client.gui.view;
 
+import com.duplxey.javasimpleirc.client.gui.ControlledFrame;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -8,61 +9,43 @@ import com.intellij.uiDesigner.core.Spacer;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends ControlledFrame {
 
     private JPanel panel;
-    private JScrollPane messageScroller;
-    private JScrollPane usersScroller;
     private JList userList;
-    private JTextField messageInput;
-    private JButton sendButton;
-    private JTextPane messagesPane;
     private JList channelList;
-    private JLabel channelLabel;
-    private JScrollPane channelScroller;
+    private JTextField messageInput;
+    private JTextPane messagesPane;
+    private JButton sendButton;
 
     public MainFrame(Controller controller) {
-        setTitle(controller.getTitle());
-        setSize(new Dimension(controller.getWidth(), controller.getHeight()));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super(controller);
+
         add(panel);
     }
 
-    public JScrollPane getMessageScroller() {
-        return messageScroller;
-    }
-
-    public JScrollPane getUsersScroller() {
-        return usersScroller;
+    public JPanel getPanel() {
+        return panel;
     }
 
     public JList getUserList() {
         return userList;
     }
 
-    public JTextField getMessageInput() {
-        return messageInput;
+    public JList getChannelList() {
+        return channelList;
     }
 
-    public JButton getSendButton() {
-        return sendButton;
+    public JTextField getMessageInput() {
+        return messageInput;
     }
 
     public JTextPane getMessagesPane() {
         return messagesPane;
     }
 
-    public JList getChannelList() {
-        return channelList;
-    }
-
-    public JLabel getChannelLabel() {
-        return channelLabel;
-    }
-
-    public JScrollPane getChannelScroller() {
-        return channelScroller;
+    public JButton getSendButton() {
+        return sendButton;
     }
 
     {
@@ -82,17 +65,17 @@ public class MainFrame extends JFrame {
     private void $$$setupUI$$$() {
         panel = new JPanel();
         panel.setLayout(new GridLayoutManager(4, 3, new Insets(10, 10, 10, 10), -1, -1));
-        messageScroller = new JScrollPane();
-        panel.add(messageScroller, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        panel.add(scrollPane1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         messagesPane = new JTextPane();
         messagesPane.setEditable(false);
         messagesPane.setPreferredSize(new Dimension(100, 22));
-        messageScroller.setViewportView(messagesPane);
-        usersScroller = new JScrollPane();
-        panel.add(usersScroller, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane1.setViewportView(messagesPane);
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel.add(scrollPane2, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         userList = new JList();
         userList.setEnabled(true);
-        usersScroller.setViewportView(userList);
+        scrollPane2.setViewportView(userList);
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$(null, -1, -1, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
@@ -101,10 +84,10 @@ public class MainFrame extends JFrame {
         final JLabel label2 = new JLabel();
         label2.setText("Users");
         panel.add(label2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        channelScroller = new JScrollPane();
-        panel.add(channelScroller, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane3 = new JScrollPane();
+        panel.add(scrollPane3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         channelList = new JList();
-        channelScroller.setViewportView(channelList);
+        scrollPane3.setViewportView(channelList);
         final JLabel label3 = new JLabel();
         label3.setText("Channels");
         panel.add(label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -115,9 +98,10 @@ public class MainFrame extends JFrame {
         sendButton = new JButton();
         sendButton.setText("Send");
         panel.add(sendButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        channelLabel = new JLabel();
-        channelLabel.setText("#general");
-        panel.add(channelLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label4 = new JLabel();
+        label4.setHorizontalAlignment(2);
+        label4.setText("Message:");
+        panel.add(label4, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

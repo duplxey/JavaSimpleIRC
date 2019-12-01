@@ -1,18 +1,25 @@
-package com.duplxey.javasimpleirc.server.irc;
+package com.duplxey.javasimpleirc.server.irc.channel;
 
+import com.duplxey.javasimpleirc.server.irc.IRCServer;
 import com.duplxey.javasimpleirc.util.file.ConfigFile;
 import com.duplxey.javasimpleirc.util.file.YamlConfiguration;
+import com.duplxey.javasimpleirc.util.packet.response.Response;
+import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ChannelManager {
 
+    private IRCServer ircServer;
+
     private YamlConfiguration config;
     private List<String> registeredChannels = new ArrayList<>();
+    private LinkedHashMap<String, Channel> channels = new LinkedHashMap<>();
+    private Channel defaultChannel;
 
-    public ChannelManager() {
+    public ChannelManager(IRCServer ircServer) {
+        this.ircServer = ircServer;
+
         init();
         load();
     }
@@ -27,16 +34,24 @@ public class ChannelManager {
 
     private void load() {
         registeredChannels = config.getStringList("channels");
+        for (String channelName : registeredChannels) {
+            channels.put(channelName, new Channel(channelName));
+        }
+        defaultChannel = channels.get(registeredChannels.get(0));
     }
 
     public void addChannel(String channelName) {
+        channels.put(channelName, new Channel(channelName));
         registeredChannels.add(channelName);
         config.setStringList("channels", registeredChannels);
+        ircServer.broadcast(new Response(ResponseType.CHANNEL_CREATE, channelName));
     }
 
     public void removeChannel(String channelName) {
+        channels.remove(channelName);
         registeredChannels.remove(channelName);
         config.setStringList("channels", registeredChannels);
+        ircServer.broadcast(new Response(ResponseType.CHANNEL_DELETE, channelName));
     }
 
     public void moveChannel(String channelName, int index) {
@@ -46,10 +61,18 @@ public class ChannelManager {
     }
 
     public boolean existsChannel(String channelName) {
-        return registeredChannels.contains(channelName);
+        return channels.containsKey(channelName);
     }
 
-    public List<String> getRegisteredChannels() {
-        return registeredChannels;
+    public Channel getChannel(String channelName) {
+        return channels.get(channelName);
+    }
+
+    public Collection<Channel> getChannels() {
+        return channels.values();
+    }
+
+    public Channel getDefaultChannel() {
+        return defaultChannel;
     }
 }
