@@ -10,6 +10,8 @@ import com.duplxey.javasimpleirc.util.util.DateUtil;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class MainFrameController implements Controller {
     private MainFrame mainFrame;
     private JTextPane messagesPane;
     private DefaultListModel<String> userModel = new DefaultListModel<>();
+    private DefaultListModel<String> channelModel = new DefaultListModel<>();
 
     public MainFrameController(IRCClient ircClient) {
         this.ircClient = ircClient;
@@ -47,6 +50,14 @@ public class MainFrameController implements Controller {
 
     @Override
     public void initComponents() {
+        channelModel.addElement("#welcome");
+        channelModel.addElement("#general");
+        channelModel.addElement("#rules");
+        channelModel.addElement("#help");
+        channelModel.addElement("#fun");
+        mainFrame.getChannelList().setModel(channelModel);
+        mainFrame.getChannelList().setSelectedIndex(0);
+        mainFrame.getChannelLabel().setText(mainFrame.getChannelList().getSelectedValue().toString());
     }
 
     @Override
@@ -62,6 +73,32 @@ public class MainFrameController implements Controller {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     sendMessage();
                 }
+            }
+        });
+        mainFrame.getChannelList().addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mainFrame.getChannelLabel().setText(mainFrame.getChannelList().getSelectedValue().toString());
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
     }
