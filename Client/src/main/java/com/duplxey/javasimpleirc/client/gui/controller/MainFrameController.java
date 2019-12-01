@@ -50,7 +50,6 @@ public class MainFrameController implements Controller {
 
     @Override
     public void initComponents() {
-        mainFrame.getChannelList().setSelectedIndex(0);
     }
 
     @Override
@@ -77,8 +76,8 @@ public class MainFrameController implements Controller {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                String channelName = mainFrame.getChannelList().getSelectedValue().toString().replaceAll("#", "");
-                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName));
+                String channelName = mainFrame.getChannelList().getSelectedValue().toString();
+                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName.replaceAll("#", "")));
             }
         });
     }
@@ -104,22 +103,28 @@ public class MainFrameController implements Controller {
         messagesPane.setText(builder.toString());
     }
 
+    public void addMessage(String author, String message) {
+        addMessage(author, message, System.currentTimeMillis());
+    }
+
     public void clearMessages() {
         mainFrame.getMessagesPane().setText("");
     }
 
     public void addChannel(String channelName) {
-        channelModel.addElement(channelName);
+        channelModel.addElement("#" + channelName);
         mainFrame.getChannelList().setModel(channelModel);
     }
 
-    public void addMessage(String author, String message) {
-        addMessage(author, message, System.currentTimeMillis());
+    public void removeChannel(String channelName) {
+        channelModel.removeElement("#" + channelName);
+        mainFrame.getChannelList().setModel(channelModel);
     }
 
     public void setClients(List<String> usernames) {
+        userModel.clear();
         for (String username : usernames) {
-            userModel.addElement(username);
+            addClient(username);
         }
         mainFrame.getUserList().setModel(userModel);
     }
