@@ -13,5 +13,7 @@ public class CommandRegister {
         new KickCommand(ircServer);
         new SayCommand(ircServer);
         new MotdCommand(ircServer);
+        new ChannelCommand(ircServer);
+        new CsayCommand(ircServer);
     }
 }

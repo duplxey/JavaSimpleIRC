@@ -22,6 +22,6 @@ public class Response {
 
     @Override
     public String toString() {
-        return PacketManager.RESPONSE_IDENTIFIER + "@" + responseType.getId() + "@" + content;
+        return PacketManager.RESPONSE_IDENTIFIER + PacketManager.DELIMITER + responseType.getId() + PacketManager.DELIMITER + content;
     }
 }

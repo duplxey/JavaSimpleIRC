@@ -10,6 +10,8 @@ import com.duplxey.javasimpleirc.util.util.DateUtil;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class MainFrameController implements Controller {
     private MainFrame mainFrame;
     private JTextPane messagesPane;
     private DefaultListModel<String> userModel = new DefaultListModel<>();
+    private DefaultListModel<String> channelModel = new DefaultListModel<>();
 
     public MainFrameController(IRCClient ircClient) {
         this.ircClient = ircClient;
@@ -32,7 +35,7 @@ public class MainFrameController implements Controller {
 
     @Override
     public String getTitle() {
-        return "JavaSimpleIRC";
+        return "JavaSimpleIRC | %data%";
     }
 
     @Override
@@ -57,11 +60,25 @@ public class MainFrameController implements Controller {
         mainFrame.getMessageInput().addKeyListener(new KeyListener() {
             @Override public void keyTyped(KeyEvent e) {}
             @Override public void keyPressed(KeyEvent e) { }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     sendMessage();
                 }
+            }
+        });
+        mainFrame.getChannelList().addMouseListener(new MouseListener() {
+            @Override public void mouseClicked(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseEntered(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                String channelName = mainFrame.getChannelList().getSelectedValue().toString().replaceAll("#", "");
+                if (ircClient.getConnection().getChannelName() != null && ircClient.getConnection().getChannelName().equalsIgnoreCase(channelName)) return;
+                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName));
             }
         });
     }
@@ -73,7 +90,7 @@ public class MainFrameController implements Controller {
             return;
         }
         if (message.length() == 0) return;
-        ircClient.getConnection().request(new Request(RequestType.SEND_MESSAGE, message));
+        ircClient.getConnection().request(new Request(RequestType.CHANNEL_SEND_MESSAGE, message));
         mainFrame.getMessageInput().setText("");
     }
 
@@ -91,9 +108,28 @@ public class MainFrameController implements Controller {
         addMessage(author, message, System.currentTimeMillis());
     }
 
+    public void clearMessages() {
+        mainFrame.getMessagesPane().setText("");
+    }
+
+    public void addChannel(String channelName) {
+        if (mainFrame.getChannelList().isSelectionEmpty()) {
+            mainFrame.getChannelList().setSelectedIndex(0);
+        }
+        channelModel.addElement("#" + channelName);
+        mainFrame.getChannelList().setModel(channelModel);
+    }
+
+    public void removeChannel(String channelName) {
+        mainFrame.getChannelList().setSelectedIndex(0);
+        channelModel.removeElement("#" + channelName);
+        mainFrame.getChannelList().setModel(channelModel);
+    }
+
     public void setClients(List<String> usernames) {
+        userModel.clear();
         for (String username : usernames) {
-            userModel.addElement(username);
+            addClient(username);
         }
         mainFrame.getUserList().setModel(userModel);
     }
@@ -105,6 +141,11 @@ public class MainFrameController implements Controller {
 
     public void removeClient(String username) {
         userModel.removeElement(username);
+        mainFrame.getUserList().setModel(userModel);
+    }
+
+    public void clearClients() {
+        userModel = new DefaultListModel<>();
         mainFrame.getUserList().setModel(userModel);
     }
 

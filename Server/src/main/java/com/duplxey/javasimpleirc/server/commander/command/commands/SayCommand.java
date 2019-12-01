@@ -6,6 +6,7 @@ import com.duplxey.javasimpleirc.server.commander.command.Command;
 import com.duplxey.javasimpleirc.server.irc.IRCServer;
 import com.duplxey.javasimpleirc.util.packet.response.Response;
 import com.duplxey.javasimpleirc.util.packet.response.ResponseType;
+import com.duplxey.javasimpleirc.util.util.StringUtil;
 
 public class SayCommand extends Command {
 
@@ -25,9 +26,8 @@ public class SayCommand extends Command {
         }
         StringBuilder builder = new StringBuilder();
         for (String arg : args) builder.append(arg).append(" ");
-        String message = builder.toString();
-        message = message.substring(0, message.length()-1);
-        ircServer.broadcast(new Response(ResponseType.MESSAGE, "server@" + message));
+        String message = StringUtil.cutLast(builder.toString());
+        ircServer.broadcast(new Response(ResponseType.MESSAGE, ircServer.getSettings().getName() + "@" + message));
         Commander.getLogger().info("Sent '" + message + "' to all the clients.");
     }
 }

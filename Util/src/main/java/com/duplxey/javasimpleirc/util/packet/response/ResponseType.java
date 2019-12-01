@@ -3,11 +3,20 @@ package com.duplxey.javasimpleirc.util.packet.response;
 public enum ResponseType {
     SERVER_DATA("SD"),
     SERVER_MOTD("SM"),
-    CONNECT("CO"),
-    DISCONNECT("DI"),
+
+    CHANNEL_LIST("CCL"),
+    CHANNEL_HISTORY("CH"),
+    CHANNEL_CLIENTS("CL"),
+
+    CHANNEL_CONNECT("CC"),
+    CHANNEL_OTHER_CONNECT("COC"),
+    CHANNEL_DISCONNECT("DI"),
+    CHANNEL_MESSAGE("CM"),
+    CHANNEL_CREATE("CCE"),
+    CHANNEL_DELETE("CCD"),
+
     USERNAME("US"),
-    CLIENTS("CL"),
-    MESSAGE_HISTORY("MH"),
+
     MESSAGE("ME"),
     ;
 

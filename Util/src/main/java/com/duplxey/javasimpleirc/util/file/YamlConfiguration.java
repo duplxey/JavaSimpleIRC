@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class YamlConfiguration {
@@ -74,6 +75,10 @@ public class YamlConfiguration {
         return (boolean) data.get(key);
     }
 
+    public List<String> getStringList(String key) {
+        return (List<String>) data.get(key);
+    }
+
     public void setString(String key, String value) {
         data.put(key, value);
         save();
@@ -100,6 +105,11 @@ public class YamlConfiguration {
     }
 
     public void setBoolean(String key, boolean value) {
+        data.put(key, value);
+        save();
+    }
+
+    public void setStringList(String key, List<String> value) {
         data.put(key, value);
         save();
     }
