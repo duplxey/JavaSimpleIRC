@@ -21,6 +21,7 @@ public class IRCServer {
 
     private ServerSocket serverSocket;
     private AcceptorThread acceptorThread;
+    private ChannelManager channelManager;
     private LinkedHashMap<String, ServerConnection> clients = new LinkedHashMap<>();
     private LinkedList<Message> messageHistory = new LinkedList<>();
 
@@ -37,6 +38,8 @@ public class IRCServer {
         }
         acceptorThread = new AcceptorThread(this);
         acceptorThread.start();
+
+        channelManager = new ChannelManager();
     }
 
     public void broadcast(Response response) {
@@ -89,6 +92,10 @@ public class IRCServer {
 
     public ServerSocket getServerSocket() {
         return serverSocket;
+    }
+
+    public ChannelManager getChannelManager() {
+        return channelManager;
     }
 
     public LinkedHashMap<String, ServerConnection> getClients() {
