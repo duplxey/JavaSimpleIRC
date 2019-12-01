@@ -38,9 +38,8 @@ public class IRCServer {
     }
 
     public void broadcast(Response response) {
-        logger.debug("Broadcasting " + response + "!");
-        for (ServerConnection client : getClients()) {
-            client.respond(response);
+        for (Channel channel : channelManager.getChannels()) {
+            channel.broadcast(response);
         }
     }
 

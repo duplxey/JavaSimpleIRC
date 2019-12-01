@@ -20,10 +20,6 @@ public class ClientsCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (ircServer.getClients().size() == 0) {
-            Commander.getLogger().info("There are no clients connected.");
-            return;
-        }
         Commander.getLogger().info("Currently connected clients:");
         for (Channel channel : ircServer.getChannelManager().getChannels()) {
             if (channel.getClients().size() == 0) {

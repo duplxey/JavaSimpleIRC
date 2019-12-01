@@ -39,7 +39,7 @@ public class Channel {
         for (ServerConnection serverConnection : clients.values()) {
             serverConnection.respond(response);
         }
-        if (response.getResponseType() == ResponseType.CHANNEL_MESSAGE) {
+        if (response.getResponseType() == ResponseType.CHANNEL_MESSAGE || response.getResponseType() == ResponseType.MESSAGE) {
             String[] splitted = response.getContent().split(PacketManager.DELIMITER, 2);
             if (messageHistory.size() >= 10) messageHistory.removeFirst();
             messageHistory.add(new Message(splitted[0], splitted[1]));

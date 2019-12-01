@@ -76,8 +76,9 @@ public class MainFrameController implements Controller {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                String channelName = mainFrame.getChannelList().getSelectedValue().toString();
-                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName.replaceAll("#", "")));
+                String channelName = mainFrame.getChannelList().getSelectedValue().toString().replaceAll("#", "");
+                if (ircClient.getConnection().getChannelName() != null && ircClient.getConnection().getChannelName().equalsIgnoreCase(channelName)) return;
+                ircClient.getConnection().request(new Request(RequestType.CHANNEL_CONNECT, channelName));
             }
         });
     }
@@ -112,11 +113,15 @@ public class MainFrameController implements Controller {
     }
 
     public void addChannel(String channelName) {
+        if (mainFrame.getChannelList().isSelectionEmpty()) {
+            mainFrame.getChannelList().setSelectedIndex(0);
+        }
         channelModel.addElement("#" + channelName);
         mainFrame.getChannelList().setModel(channelModel);
     }
 
     public void removeChannel(String channelName) {
+        mainFrame.getChannelList().setSelectedIndex(0);
         channelModel.removeElement("#" + channelName);
         mainFrame.getChannelList().setModel(channelModel);
     }

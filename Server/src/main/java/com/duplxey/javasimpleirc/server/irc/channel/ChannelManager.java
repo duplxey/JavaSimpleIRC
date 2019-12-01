@@ -1,6 +1,7 @@
 package com.duplxey.javasimpleirc.server.irc.channel;
 
 import com.duplxey.javasimpleirc.server.irc.IRCServer;
+import com.duplxey.javasimpleirc.server.irc.ServerConnection;
 import com.duplxey.javasimpleirc.util.file.ConfigFile;
 import com.duplxey.javasimpleirc.util.file.YamlConfiguration;
 import com.duplxey.javasimpleirc.util.packet.response.Response;
@@ -48,6 +49,12 @@ public class ChannelManager {
     }
 
     public void removeChannel(String channelName) {
+        Channel channel = getChannel(channelName);
+        // Reconnect all the clients
+        for (ServerConnection client : channel.getClients().values()) {
+            channel.disconnect(client.getUsername());
+            defaultChannel.connect(client.getUsername(), client);
+        }
         channels.remove(channelName);
         registeredChannels.remove(channelName);
         config.setStringList("channels", registeredChannels);

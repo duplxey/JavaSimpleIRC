@@ -16,6 +16,7 @@ import java.util.Arrays;
 public class ClientConnection extends Connection implements Droppable {
 
     private IRCClient ircClient;
+    private String channelName = null;
 
     public ClientConnection(Socket socket, IRCClient ircClient) {
         super(socket);
@@ -66,6 +67,7 @@ public class ClientConnection extends Connection implements Droppable {
                 request(new Request(RequestType.FETCH_SERVER_MOTD));
                 request(new Request(RequestType.FETCH_CHANNEL_CLIENTS));
                 request(new Request(RequestType.FETCH_CHANNEL_HISTORY));
+                channelName = response.getContent();
                 break;
             case CHANNEL_OTHER_CONNECT:
                 mfc.addClient(response.getContent());
@@ -93,5 +95,9 @@ public class ClientConnection extends Connection implements Droppable {
         mfc.getMainFrame().dispose();
         JOptionPane.showMessageDialog(null, "Socket connection has been dropped.", "Connection dropped.", JOptionPane.WARNING_MESSAGE);
         ircClient.getConnection().destroy();
+    }
+
+    public String getChannelName() {
+        return channelName;
     }
 }

@@ -40,7 +40,7 @@ public class IRCClient {
         return guiManager;
     }
 
-    public Connection getConnection() {
+    public ClientConnection getConnection() {
         return connection;
     }
 
