@@ -31,9 +31,7 @@ public class CsayCommand extends Command {
             return;
         }
         Channel channel = ircServer.getChannelManager().getChannel(channelName);
-        StringBuilder builder = new StringBuilder();
-        for (int i = 1; i < args.length; i++) builder.append(args[i]).append(" ");
-        String message = StringUtil.cutLast(builder.toString());
+        String message = StringUtil.cutLast(StringUtil.glue(args, 1));
         channel.broadcast(new Response(ResponseType.CHANNEL_MESSAGE, ircServer.getSettings().getName() + "@" + message));
         Commander.getLogger().info("Sent '" + message + "' to all the clients in '" + channelName + "'.");
     }

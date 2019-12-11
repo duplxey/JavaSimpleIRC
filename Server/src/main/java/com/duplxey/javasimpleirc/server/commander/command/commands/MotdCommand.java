@@ -21,9 +21,7 @@ public class MotdCommand extends Command {
             Commander.getLogger().info("MOTD: " + ircServer.getSettings().getMOTD());
             return;
         }
-        StringBuilder builder = new StringBuilder();
-        for (String arg : args) builder.append(arg).append(" ");
-        String message = StringUtil.cutLast(builder.toString());
+        String message = StringUtil.cutLast(StringUtil.glue(args));
         ircServer.getSettings().setMOTD(message);
         Commander.getLogger().info("MOTD has been set to '" + message + "'.");
     }

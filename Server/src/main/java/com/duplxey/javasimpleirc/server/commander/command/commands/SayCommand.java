@@ -24,9 +24,7 @@ public class SayCommand extends Command {
             Commander.getLogger().info(CMessage.WRONG_SYNTAX.getText() + getSyntax());
             return;
         }
-        StringBuilder builder = new StringBuilder();
-        for (String arg : args) builder.append(arg).append(" ");
-        String message = StringUtil.cutLast(builder.toString());
+        String message = StringUtil.cutLast(StringUtil.glue(args));
         ircServer.broadcast(new Response(ResponseType.MESSAGE, ircServer.getSettings().getName() + "@" + message));
         Commander.getLogger().info("Sent '" + message + "' to all the clients.");
     }

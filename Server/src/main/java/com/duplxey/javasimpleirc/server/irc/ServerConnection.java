@@ -79,7 +79,8 @@ public class ServerConnection extends Connection implements Droppable {
                 respond(new Response(ResponseType.CHANNEL_CONNECT, channelName));
                 break;
             case CHANNEL_SEND_MESSAGE:
-                channel.broadcast(new Response(ResponseType.CHANNEL_MESSAGE, username + PacketManager.DELIMITER + request.getContent()));
+                // We need to replace '|' with '_', because message is split by '|'
+                channel.broadcast(new Response(ResponseType.CHANNEL_MESSAGE, username + PacketManager.DELIMITER + request.getContent().replaceAll("\\|", "_")));
                 break;
             case FETCH_USERNAME:
                 respond(new Response(ResponseType.USERNAME, ircServer.getSettings().getName()));

@@ -31,6 +31,8 @@ public class AcceptorThread extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // Connection has been successfully established, but we still don't know how to identify the user
+            // let's send him a FETCH_USERNAME requests and once he responds actually add him as a client
             Connection connection = new ServerConnection(socket, ircServer);
             connection.request(new Request(RequestType.FETCH_USERNAME));
         }

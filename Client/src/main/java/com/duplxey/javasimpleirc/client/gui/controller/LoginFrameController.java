@@ -1,8 +1,8 @@
 package com.duplxey.javasimpleirc.client.gui.controller;
 
-import com.duplxey.javasimpleirc.client.irc.IRCClient;
 import com.duplxey.javasimpleirc.client.gui.Controller;
 import com.duplxey.javasimpleirc.client.gui.view.LoginFrame;
+import com.duplxey.javasimpleirc.client.irc.IRCClient;
 import com.duplxey.javasimpleirc.util.regex.RegexUtil;
 
 import javax.swing.*;

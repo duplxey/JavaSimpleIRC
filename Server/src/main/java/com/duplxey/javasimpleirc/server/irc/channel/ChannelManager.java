@@ -35,6 +35,10 @@ public class ChannelManager {
 
     private void load() {
         registeredChannels = config.getStringList("channels");
+        // In case administrator accidentally removes all the channels, we'll add a fallback
+        if (registeredChannels.size() == 0) {
+            registeredChannels.add("general");
+        }
         for (String channelName : registeredChannels) {
             channels.put(channelName, new Channel(channelName));
         }

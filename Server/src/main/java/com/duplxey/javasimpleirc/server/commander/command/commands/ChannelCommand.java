@@ -16,15 +16,17 @@ public class ChannelCommand extends Command {
 
     private ChannelManager channelManager;
 
+    private ArrayList<String> listOperations;
     private ArrayList<String> addOperations;
     private ArrayList<String> removeOperations;
     private ArrayList<String> moveOperations;
 
     public ChannelCommand(IRCServer ircServer) {
-        super("channel", "Channel manager.", new String[] {"channels", "c"}, "<command> | <create|delete|move> <name> | <index>");
+        super("channel", "Channel manager.", new String[] {"channels", "c"}, "<command> | <list|create|delete|move> <name> | <index>");
 
         this.channelManager = ircServer.getChannelManager();
 
+        listOperations = new ArrayList<>(Collections.singletonList("list"));
         addOperations = new ArrayList<>(Arrays.asList("create", "add", "register"));
         removeOperations = new ArrayList<>(Arrays.asList("delete", "remove", "unregister"));
         moveOperations = new ArrayList<>(Collections.singletonList("move"));
@@ -32,7 +34,7 @@ public class ChannelCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 0) {
+        if (args.length == 0 || (args.length == 1 && listOperations.contains(args[0]))) {
             Commander.getLogger().info("Currently registered channels:");
             Commander.getLogger().info("+--------------+---------------------------------------------+");
             Commander.getLogger().info("| Index        | Channel name                                |");
@@ -66,6 +68,10 @@ public class ChannelCommand extends Command {
                     Commander.getLogger().info(CMessage.CHANNEL_DOESNT_EXIST.getText());
                     return;
                 }
+                if (channelManager.getChannels().size() == 1) {
+                    Commander.getLogger().info("You cannot delete all the channels (create a new channel before deleting this one).");
+                    return;
+                }
                 channelManager.removeChannel(channelName);
                 Commander.getLogger().info("Removed a channel named '" + channelName + "'.");
                 return;
@@ -74,6 +80,10 @@ public class ChannelCommand extends Command {
         if (args.length == 3) {
             String operation = args[0];
             String channelName = args[1];
+            if (!channelName.matches(RegexUtil.getChannelRegex())) {
+                Commander.getLogger().info(CMessage.REGEX_NO_MATCH.getText());
+                return;
+            }
             if (moveOperations.contains(operation)) {
                 int index = 0;
                 try {

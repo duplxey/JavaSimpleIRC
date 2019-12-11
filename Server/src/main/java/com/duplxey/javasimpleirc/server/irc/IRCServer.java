@@ -45,6 +45,11 @@ public class IRCServer {
 
     public void close() {
         for (ServerConnection client : getClients()) client.destroy();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         acceptorThread.cancel();
     }
 

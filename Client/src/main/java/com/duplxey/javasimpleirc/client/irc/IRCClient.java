@@ -1,7 +1,6 @@
 package com.duplxey.javasimpleirc.client.irc;
 
 import com.duplxey.javasimpleirc.client.gui.GUIManager;
-import com.duplxey.javasimpleirc.util.connection.Connection;
 import com.duplxey.javasimpleirc.util.packet.request.Request;
 import com.duplxey.javasimpleirc.util.packet.request.RequestType;
 

@@ -7,7 +7,7 @@ public class FileUtil {
 
     public static String getFileContent(String fileName) {
         try {
-            return sumLines(new FileInputStream(new File(fileName)));
+            return loadLinesAsString(new FileInputStream(new File(fileName)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -15,10 +15,10 @@ public class FileUtil {
     }
 
     public static String getResourceContent(ClassLoader classLoader, String fileName) {
-        return sumLines(classLoader.getResourceAsStream(fileName));
+        return loadLinesAsString(classLoader.getResourceAsStream(fileName));
     }
 
-    private static String sumLines(InputStream is) {
+    private static String loadLinesAsString(InputStream is) {
         if (is != null) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
