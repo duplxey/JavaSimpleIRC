@@ -10,7 +10,7 @@ Serves as a bridge between the 'client' and the 'server' module. It contains use
 ### Server
 Server is a standalone console based program, that can send responses and receive requests from the clients. It contains the following built-in commands for easier IRC server management:  
 | Command      | Description                                 |
-| ---------------------------------------------------------- |
+| ------------ | ------------------------------------------- |
 | commands     | Displays the command list.                  |
 | exit         | Terminates the program.                     |
 | info         | Displays the info of a command.             |
@@ -22,6 +22,6 @@ Server is a standalone console based program, that can send responses and receiv
 | channelsay   | Sends a message to all channel's clients.   |
 
 ### Client
-Is also a standalone GUI based program, that aims for simplicity and ease of use. Clients can connect to servers on localhost or outer web.
+Is also a standalone GUI based program, that aims for simplicity and ease of use. Clients can connect to servers on localhost or outer web.  
 ![Client login](https://i.imgur.com/a4JlBQ7.png)
 ![Client main](https://i.imgur.com/geSYkLt.png)
