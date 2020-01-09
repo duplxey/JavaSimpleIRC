@@ -9,8 +9,9 @@ Serves as a bridge between the 'client' and the 'server' module. It contains use
     
 ### Server
 Server is a standalone console based program, that can send responses and receive requests from the clients. It contains the following built-in commands for easier IRC server management:  
+
 | Command      | Description                                 |
-| ------------ | ------------------------------------------- |
+| --- | --- |
 | commands     | Displays the command list.                  |
 | exit         | Terminates the program.                     |
 | info         | Displays the info of a command.             |
